@@ -47,8 +47,8 @@ class HomeSplash extends React.Component {
     return (
       <SplashContainer>
         <div className="content">
-          <img class="proptics-logo" src={imgUrl(siteConfig.logo)} alt="Proptics[_, _]" />
-        <h2 className="inverseLight">Proptics is a Profunctor Optics and Lenses library for Scala</h2>
+          <img class="theodolite-logo" src={imgUrl(siteConfig.logo)} alt="Theodolite[_, _]" />
+        <h2 className="inverseLight">Theodolite is a Profunctor Optics and Lenses library for Scala</h2>
       </div>
       </SplashContainer>
     );
@@ -69,15 +69,15 @@ const Features = () => (
     {[
       {
         title: 'Profunctional',
-        content: 'Proptics uses a Profunctor encoding for the internal representation of its optics. You can learn what is profunctor in the [profunctor](/Proptics/docs/profunctors/profunctor) section.',
+        content: 'Theodolite uses a Profunctor encoding for the internal representation of its optics. You can learn what is profunctor in the [profunctor](/Theodolite/docs/profunctors/profunctor) section.',
        },
       {
         title: 'Simple to use and easy to learn',
-        content: 'Proptics API was designed to resemble the Scala standard library.',
+        content: 'Theodolite API was designed to resemble the Scala standard library.',
        },
       {
         title: 'Cats Friendly',
-        content: 'Proptics is built on top of [Cats](https://typelevel.org/cats/) and [Spire](https://typelevel.org/spire/)',
+        content: 'Theodolite is built on top of [Cats](https://typelevel.org/cats/) and [Spire](https://typelevel.org/spire/)',
       },
     ]}
   </Block>

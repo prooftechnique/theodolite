@@ -27,3 +27,4 @@ project/plugins/project/
 /website/yarn.lock
 
 .direnv/
+.bleep/

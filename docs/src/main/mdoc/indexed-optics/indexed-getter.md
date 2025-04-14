@@ -91,7 +91,7 @@ so the representation of can be even more simplified to:
 
 ## Constructing IndexedGetters
 
-`IndexedGetter_[I, S, T, A, B]` is constructed using the <a href="../../api/proptics/IndexedGetter_$">IndexedGetter_[I, S, T, A, B]#apply</a> function.</br>
+`IndexedGetter_[I, S, T, A, B]` is constructed using the <a href="../../api/theodolite/IndexedGetter_$">IndexedGetter_[I, S, T, A, B]#apply</a> function.</br>
 For a given `IndexedGetter_[I, S, T, A, B]` it takes a function as argument `S => (A, I)`.
 
 ```scala
@@ -100,7 +100,7 @@ object IndexedGetter_ {
 }
 ```
 
-`IndexedGetter[I, S, A]` is constructed using the <a href="../../api/proptics/IndexedGetter$">IndexedGetter[I, S, T, A, B]#apply</a> function.</br>
+`IndexedGetter[I, S, A]` is constructed using the <a href="../../api/theodolite/IndexedGetter$">IndexedGetter[I, S, T, A, B]#apply</a> function.</br>
 For a given `IndexedGetter[I, S, A]` it takes a function as argument `S => (A, I)`.
 
 
@@ -114,8 +114,8 @@ Consider a `Map[String, List[String]]` of series recommendations, and we want to
 an entry by a specific index.
 
 ```scala
-import proptics.IndexedGetter
-// import proptics.IndexedGetter
+import theodolite.IndexedGetter
+// import theodolite.IndexedGetter
 
 import cats.instances.option._ // instance of Eq[Option]
 // import cats.instances.option._ 
@@ -142,8 +142,8 @@ val indexedGetter: IndexedGetter[String, Map[String, List[String]], Option[List[
   IndexedGetter[String, Map[String, List[String]], Option[List[String]]] { map =>
     (map.get("tt0903747"), "tt0903747")
   }
-// indexedGetter: proptics.IndexedGetter[String,Map[String,List[String]],Option[List[String]]] = 
-//   proptics.IndexedGetter_$$anon$14@33ddee76
+// indexedGetter: theodolite.IndexedGetter[String,Map[String,List[String]],Option[List[String]]] = 
+//   theodolite.IndexedGetter_$$anon$14@33ddee76
 ```
 
 ## Common functions of a IndexedGetter

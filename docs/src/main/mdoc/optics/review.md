@@ -8,7 +8,7 @@ describes how to construct a single value. It's a dual of [Getter](getter.md).<b
 
 ## Constructing a monomorphic Review
 
-`Review[S, A]` is constructed using the <a href="../../api/proptics/Review$">Review[S, A]#apply</a> function.</br>
+`Review[S, A]` is constructed using the <a href="../../api/theodolite/Review$">Review[S, A]#apply</a> function.</br>
 For a given `Review[S, A]` it takes a function `review: A => S` as argument.
 
 ```scala
@@ -17,7 +17,7 @@ object Review {
 }
 ```
 ```scala
-import proptics.Review
+import theodolite.Review
 
 def fibonacci(a: Int, b: Int): LazyList[Int] = a #:: fibonacci(b, a  + b)
 
@@ -29,7 +29,7 @@ review.review(7)
 
 ## Constructing a polymorphic Review
 
-`Review_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Review_$">Review_[S, T, A, B]#apply</a> function.</br>
+`Review_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Review_$">Review_[S, T, A, B]#apply</a> function.</br>
 For a given `Review_[S, T, A, B]` it takes a function `review: B => T` as argument.
 
 ```scala
@@ -40,7 +40,7 @@ object Review_ {
 
 ## Methods
 
-#### [review](../../api/proptics/Review_.html#review(b:B):T)
+#### [review](../../api/theodolite/Review_.html#review(b:B):T)
 
 ```scala
 /** view the modified source of a Review */
@@ -48,7 +48,7 @@ def review(a: A): S
 ```
 
 ```scala
-import proptics.Review
+import theodolite.Review
 
 final case class Whole(part: Int)
 
@@ -58,7 +58,7 @@ wholeReview.review(9)
 // val res0: Whole = Whole(9)
 ```
 
-#### [use](../../api/proptics/Review_.html#use(implicitev:cats.data.State[B,T]):cats.data.State[B,T])
+#### [use](../../api/theodolite/Review_.html#use(implicitev:cats.data.State[B,T]):cats.data.State[B,T])
 
 ```scala
 /** view the modified focus of a Review in the state of a monad */
@@ -67,7 +67,7 @@ def use(implicit ev: cats.data.State[A, S]): State[A, S]
 
 ```scala
 import cats.data.State
-import proptics.Review
+import theodolite.Review
 
 final case class Whole(part: Int)
 

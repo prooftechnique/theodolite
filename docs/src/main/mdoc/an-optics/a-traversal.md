@@ -49,7 +49,7 @@ title: ATraversal
  
  ## Constructing ATraversal
  
- `ATraversal_[S, T, A, B]` is constructed using the <a href="../../api/proptics/ATraversal_$">ATraversal_[S, T, A, B]#apply</a> function.<br/>
+ `ATraversal_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/ATraversal_$">ATraversal_[S, T, A, B]#apply</a> function.<br/>
  For a given `ATraversal_[S, T, A, B]` it takes two functions as arguments,
 `view: S => A` which is a getter function, that produces zero, one, or many elements of `A` given an `S`, and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns
 a structure of `T` filled will all foci of that `B`
@@ -60,7 +60,7 @@ a structure of `T` filled will all foci of that `B`
  }
  ```
  
- `ATraversal[S, A]` is constructed using the <a href="../../api/proptics/ATraversal$">ATraversal[S, A]#apply</a> function.<br/>
+ `ATraversal[S, A]` is constructed using the <a href="../../api/theodolite/ATraversal$">ATraversal[S, A]#apply</a> function.<br/>
  For a given `ATraversal[S, A]` it takes two functions as arguments, `view: S => A` which is a getter function, that produces zero, one, or many elements of `A` given an `S`, and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a
  new structure `S` filled will all foci of that `A`.
  
@@ -79,8 +79,8 @@ import cats.syntax.option._
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
 
-import proptics.ATraversal
-// import proptics.ATraversal 
+import theodolite.ATraversal
+// import theodolite.ATraversal 
 
 val list: List[Int] = List.range(1, 5)
 // list: List[Int] = List(1, 2, 3, 4)
@@ -89,7 +89,7 @@ val optionByPredicate: Int => Option[Int] = i => if (i % 2 === 0) i.some else no
 // optionByPredicate: Int => Option[Int] = $Lambda$12694/0x0000000802bfc3e0@5f962a8b
 
 val listTraversal: ATraversal[List[Int], Int] = ATraversal.fromTraverse[List, Int]
-// listTraversal: proptics.ATraversal[List[Int],Int] = proptics.ATraversal_$$anon$12@4e2da5c7
+// listTraversal: theodolite.ATraversal[List[Int],Int] = theodolite.ATraversal_$$anon$12@4e2da5c7
 ```
 
 ## Common functions of a ATraversal
@@ -239,11 +239,11 @@ import cats.syntax.option._
 import cats.instances.list._
 // import cats.instances.list._
 
-import proptics.ATraversal_
-// import proptics.ATraversal_
+import theodolite.ATraversal_
+// import theodolite.ATraversal_
 
-import proptics.syntax.aTraversal._
-// import proptics.syntax.aTraversal._
+import theodolite.syntax.aTraversal._
+// import theodolite.syntax.aTraversal._
 
 val list: List[Int] = List.range(1, 5)
 // list: List[Int] = List(1, 2, 3, 4)
@@ -279,34 +279,34 @@ traversal.sequence(listOfSomeOptions)
 ```scala
 val traversal: ATraversal[(Int, String), String] = 
   ATraversal[(Int, String), String](_._2) { case (i, _) => s => (i, s) }
-// traversal: proptics.ATraversal[(Int, String),String] = proptics.ATraversal_$$anon$22@7218cbb6
+// traversal: theodolite.ATraversal[(Int, String),String] = theodolite.ATraversal_$$anon$22@7218cbb6
 
 val bazaar = traversal.toBazaar
 // bazaar: internal.Bazaar[[α$11$, β$12$]α$11$ => β$12$,String,String,(Int, String),(Int, String)] = 
-//   proptics.ATraversal_$$anon$22$$anon$23@5f364bc2
+//   theodolite.ATraversal_$$anon$22$$anon$23@5f364bc2
 ```
 
 We can later on create a new instance of an `ATraversal` or a `Traversal` from the bazaar instance
 
 ```scala
-import proptics.ATraversal
-// import proptics.ATraversal_
+import theodolite.ATraversal
+// import theodolite.ATraversal_
 
-import proptics.Traversal
-// import proptics.Traversal
+import theodolite.Traversal
+// import theodolite.Traversal
 
 val aTraversalFromBazaar: ATraversal[(Int, String), String] = ATraversal.fromBazaar(bazaar)
-// aTraversalFromBazaar: proptics.ATraversal[(Int, String),String] = 
-//   proptics.ATraversal_$$anon$19@43bf1ac9
+// aTraversalFromBazaar: theodolite.ATraversal[(Int, String),String] = 
+//   theodolite.ATraversal_$$anon$19@43bf1ac9
 
 val traversalFromBazaar: Traversal[(Int, String), String] = Traversal.fromBazaar(bazaar)
-// traversalFromBazaar: proptics.Traversal[(Int, String),String] = 
-//   proptics.Traversal_$$anon$12@7494feef
+// traversalFromBazaar: theodolite.Traversal[(Int, String),String] = 
+//   theodolite.Traversal_$$anon$12@7494feef
 ```
 
 ## Laws
 
-A `Traversal` must satisfy all <a href="../../api/proptics/law/ATraversalLaws">ATraversalLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+A `Traversal` must satisfy all <a href="../../api/theodolite/law/ATraversalLaws">ATraversalLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.instances.list._
@@ -318,8 +318,8 @@ import cats.syntax.eq._
 import cats.{Applicative, Eq}
 // import cats.{Applicative, Eq}
 
-import proptics.ATraversal
-// import proptics.ATraversal
+import theodolite.ATraversal
+// import theodolite.ATraversal
 ```
 
 #### Traversing with "empty" handler shouldn't change anything
@@ -330,7 +330,7 @@ def respectPurity[F[_]: Applicative, S, A](traversal: ATraversal[S, A], s: S)
   traversal.traverse[F](s)(Applicative[F].pure _) === Applicative[F].pure(s)
 
 val listTraversal = ATraversal.fromTraverse[List, Int]
-// listTraversal: proptics.ATraversal[List[Int],Int] = proptics.ATraversal_$$anon$12@4fb75a8c
+// listTraversal: theodolite.ATraversal[List[Int],Int] = theodolite.ATraversal_$$anon$12@4fb75a8c
 
 respectPurity(listTraversal, List.range(1, 5))
 // res0: Boolean = true

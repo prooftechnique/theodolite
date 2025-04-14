@@ -7,7 +7,7 @@ AnOptic is similar to a regular optic, but has an internal different encoding th
 `Optic_[S, T, A, B]` takes an argument of `P[A, B]`, and an implicit instance of some kind of `Profunctor[P[_, _]]` and returns `P[S, T]`. 
 `AnOptic_[S, T, A, B]` takes a data type shaped like a `Profunctor`, that characterizes the construction of the an-optic, and returns
 a new instance of the data type with modified types. `AnOptic_[S, T, A, B]` like `Optic_[S, T, A, B]` is not really used for the encoding 
-of all `an-optic(s)` in `Proptics`, and it is only shown for explanation purposes.
+of all `an-optic(s)` in `Theodolite`, and it is only shown for explanation purposes.
 
 For example `Iso_[S, T, A, B]` vs `AnIso_[S, T, A, B]`<br/>
 An `Iso_[S, T, A, B]` is a function `P[A, B] => P[S, T]` where's the `P[_, _]` is a profunctor.<br/>
@@ -31,7 +31,7 @@ abstract class Iso_[S, T, A, B] {
 The construction mechanism for `AnIso_[S, T, A, B]` is the same construction for `Iso_[S, T, A, B]`, but the functions are encoded within the `Exchange` type.
 
 ```scala
-import proptics.internal.Exchange
+import theodolite.internal.Exchange
 abstract class AnIso_[S, T, A, B] {
   def apply(exchange: Exchange[A, B, A, B]): Exchange[A, B, S, T]
 }
@@ -71,43 +71,43 @@ implicit def profunctorExchange[E, F]: Profunctor[Exchange[E, F, *, *]] =
 
 ## Why does AnOptic exist?
 
-`Proptics` is inspired by ideas from [purescript-profunctor-lenses](https://github.com/purescript-contrib/purescript-profunctor-lenses)
+`Theodolite` is inspired by ideas from [purescript-profunctor-lenses](https://github.com/purescript-contrib/purescript-profunctor-lenses)
 In `purescript` we cannot put `Optic` directly into a container (e.g. an `Option`), therefore a new optic has been designed to have the ability to export
 its representation to a data type. Although it is not the case for Scala, still, passing an optic to a function might seems awkward,
-therefore this option has been adopted in `Proptics`.<br/> The data type representing `AnIso_[S, T, A, B]` is the `Exchange[A, B, S, T]`.
+therefore this option has been adopted in `Theodolite`.<br/> The data type representing `AnIso_[S, T, A, B]` is the `Exchange[A, B, S, T]`.
 We can use the `toExchange` method of `AnIso_[S, T, A, B]` in order to get an `Exchange[A, B, S, T]`
 
 ```scala
-import proptics.AnIso
-// import proptics.AnIso
+import theodolite.AnIso
+// import theodolite.AnIso
 
 val anIsoStringToList: AnIso[String, List[Char]] = AnIso[String, List[Char]](_.toList)(_.mkString)
-// anIsoStringToList: proptics.AnIso[String,List[Char]] = proptics.AnIso_$$anon$17@74561208
+// anIsoStringToList: theodolite.AnIso[String,List[Char]] = theodolite.AnIso_$$anon$17@74561208
 
 val exchange = anIsoStringToList.toExchange
-// exchange: proptics.internal.Exchange[List[Char],List[Char],String,String] = 
+// exchange: theodolite.internal.Exchange[List[Char],List[Char],String,String] = 
 //   Exchange(scala.Function1$$Lambda$9364/0x0000000801a34040@419490d4,
 //            scala.Function1$$Lambda$9364/0x0000000801a34040@78d86219)
 
-anIsoStringToList.view("Proptics")
+anIsoStringToList.view("Theodolite")
 // res0: List[Char] = List(P, r, o, p, t, i, c, s)
 
-exchange.review("Proptics".toList)
-// res1: String = Proptics
+exchange.review("Theodolite".toList)
+// res1: String = Theodolite
 ```
 
 We can later on create a new instance of `AnIso` or `Iso` from the exchange instance
 
 ```scala
-import proptics.Iso
-// import proptics.Iso
+import theodolite.Iso
+// import theodolite.Iso
 
 val anIsoFromExchange: AnIso[String, List[Char]] = 
   AnIso[String, List[Char]](exchange.view)(exchange.review)
-// anIsoFromExchange: proptics.AnIso[String,List[Char]] = proptics.AnIso_$$anon$17@bf55e9c
+// anIsoFromExchange: theodolite.AnIso[String,List[Char]] = theodolite.AnIso_$$anon$17@bf55e9c
 
 val isoFromExchange: Iso[String, List[Char]] = Iso[String, List[Char]](exchange.view)(exchange.review)
-// isoFromExchange: proptics.Iso[String,List[Char]] = proptics.Iso_$$anon$16@4c6f5ff7
+// isoFromExchange: theodolite.Iso[String,List[Char]] = theodolite.Iso_$$anon$16@4c6f5ff7
 ``` 
 
 

@@ -52,7 +52,7 @@ An `ALens` that does not change its focus/structure, is called `Monomorphic ALen
 
 ## Constructing ALenses
 
-`ALens_[S, T, A, B]` is constructed using the <a href="../../api/proptics/ALens_$">ALens_[S, T, A, B]#apply</a> function.</br>
+`ALens_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/ALens_$">ALens_[S, T, A, B]#apply</a> function.</br>
 For a given `Lens[S, A]` it takes two functions as arguments, `view: S => A` which is a getter function, that produces an `A` given an `S`, 
 and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns a structure of `T`.
 
@@ -62,7 +62,7 @@ object ALens_ {
 }
 ```
 
-`ALens[S, A]` is constructed using the <a href="../../api/proptics/ALens$">ALens[S, A]#apply</a> function. For a given `ALens[S, A]` it takes two functions as arguments,
+`ALens[S, A]` is constructed using the <a href="../../api/theodolite/ALens$">ALens[S, A]#apply</a> function. For a given `ALens[S, A]` it takes two functions as arguments,
 `view: S => A` which is a getter function, that produces an `A` given an `S`, and<br/>  `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a
 new structure `S`.
 
@@ -86,11 +86,11 @@ We have user instance of type `User`, and we want to focus on the email field, s
 interact with it.
 
 ```scala
-import proptics.ALens
-// import proptics.ALens
+import theodolite.ALens
+// import theodolite.ALens
 
 val emailLens = ALens[User, String](_.email)(person => email => person.copy(email = email))
-// emailLens: proptics.ALens[User,String] = proptics.ALens_$$anon$11@35a0773a
+// emailLens: theodolite.ALens[User,String] = theodolite.ALens_$$anon$11@35a0773a
 ```
 
 ## Common functions of a ALens
@@ -179,15 +179,15 @@ In order to be able to focus on a deeply nested field, we need to define multipl
 val accountSecurityLens = ALens[User, AccountSecurity](_.accountSecurity) { person => security => 
   person.copy(accountSecurity = security)
 }
-// accountSecurityLens: proptics.ALens[User,AccountSecurity] = proptics.ALens_$$anon$11@67fcf75c
+// accountSecurityLens: theodolite.ALens[User,AccountSecurity] = theodolite.ALens_$$anon$11@67fcf75c
 
 val passwordLens = ALens[AccountSecurity, String](_.password) { security => password => 
   security.copy(password = password)
 }
-// passwordLens: proptics.ALens[AccountSecurity,String] = proptics.ALens_$$anon$11@73c60f21 
+// passwordLens: theodolite.ALens[AccountSecurity,String] = theodolite.ALens_$$anon$11@73c60f21 
 
 val userPasswordLens = accountSecurityLens andThen passwordLens
-// userPasswordLens: proptics.ALens[User,String] = proptics.ALens_$$anon$2@27ae8f48
+// userPasswordLens: theodolite.ALens[User,String] = theodolite.ALens_$$anon$2@27ae8f48
 
 userPasswordLens.view(user)
 // res0: String = 123456!
@@ -211,18 +211,18 @@ We can also use an inline composition
 `ALens` allows us to export its internal construction logic to a `Shop` using the `toShop` method.
 
 ```scala
-import proptics.ALens
-// import proptics.ALens
+import theodolite.ALens
+// import theodolite.ALens
 
 val tupleLens: ALens[(Int, String), Int] = ALens[(Int, String), Int](_._1) { 
   case(_, s) => i => (i, s) 
 }
-// tupleLens: proptics.ALens[(Int, String),Int] = proptics.ALens_$$anon$12@28eb4316
+// tupleLens: theodolite.ALens[(Int, String),Int] = theodolite.ALens_$$anon$12@28eb4316
 
 val shop = tupleLens.toShop
-//shop: proptics.internal.Shop[Int,Int,(Int, String),(Int, String)] = 
+//shop: theodolite.internal.Shop[Int,Int,(Int, String),(Int, String)] = 
 //  Shop(scala.Function1$$Lambda$32794/0x000000080398f840@51b6fb0e,
-//       proptics.ALens_$$$Lambda$32795/0x000000080398d840@64eeb60e)
+//       theodolite.ALens_$$$Lambda$32795/0x000000080398d840@64eeb60e)
 
 shop.view((9, "Hello"))
 // res0: Int = 9
@@ -234,22 +234,22 @@ shop.set((1, "Hello"))(9)
 We can later on create a new instance of `ALens` or `Lens` from the shop instance
 
 ```scala
-import proptics.Lens
-// import proptics.Lens
+import theodolite.Lens
+// import theodolite.Lens
 
-import proptics.ALens
-// import proptics.ALens
+import theodolite.ALens
+// import theodolite.ALens
 
 val aLensFromShop: ALens[(Int, String), Int] = ALens[(Int, String), Int](shop.view)(shop.set)
-// aLensFromShop: proptics.ALens[(Int, String),Int] = proptics.ALens_$$anon$12@1e797afb
+// aLensFromShop: theodolite.ALens[(Int, String),Int] = theodolite.ALens_$$anon$12@1e797afb
 
 val lensFromShop: Lens[(Int, String), Int] = Lens[(Int, String), Int](shop.view)(shop.set)
-// lensFromShop: proptics.Lens[(Int, String),Int] = proptics.Lens_$$anon$11@7f2ed0a1
+// lensFromShop: theodolite.Lens[(Int, String),Int] = theodolite.Lens_$$anon$11@7f2ed0a1
 ```
 
 ## Laws
 
-A `ALens` must satisfy all <a href="../../api/proptics/law/ALensLaws">ALensLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+A `ALens` must satisfy all <a href="../../api/theodolite/law/ALensLaws">ALensLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq

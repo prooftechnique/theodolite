@@ -49,7 +49,7 @@ An `IndexedTraversal` that does not change its foci/structure, is called `Monomo
 
 ## Constructing IndexedTraversals
 
-`IndexedTraversal_[I, S, T, A, B]` is constructed using the <a href="../../api/proptics/IndexedTraversal_$">IndexedTraversal_[I, S, T, A, B]#apply</a> function.
+`IndexedTraversal_[I, S, T, A, B]` is constructed using the <a href="../../api/theodolite/IndexedTraversal_$">IndexedTraversal_[I, S, T, A, B]#apply</a> function.
 For a given `IndexedTraversal_[I, S, T, A, B]` it takes two functions as arguments,</br>
 `view: S => (A, I)` which is a getter function, that produces zero, one, or many elements of `A`, each tupled with its index `I` given an `S`, 
 and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns
@@ -61,7 +61,7 @@ object IndexedTraversal_ {
 }
 ```
 
-`IndexedTraversal[I, S, A]` is constructed using the <a href="../../api/proptics/IndexedTraversal$">IndexedTraversal[I, S, A]#apply</a> function.</br>
+`IndexedTraversal[I, S, A]` is constructed using the <a href="../../api/theodolite/IndexedTraversal$">IndexedTraversal[I, S, A]#apply</a> function.</br>
 For a given `IndexedTraversal[S, A]` it takes two functions as arguments, `view: S => (A, I)` which is a getter function, that produces zero, one, or many elements of `A`, each tupled with its index `I` given an `S`, 
 and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a
 new structure `S` filled will all foci of that `A`.
@@ -82,8 +82,8 @@ import cats.syntax.option._
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
 
-import proptics.{IndexedTraversal, IndexedTraversal_}
-// import proptics.IndexedTraversal 
+import theodolite.{IndexedTraversal, IndexedTraversal_}
+// import theodolite.IndexedTraversal 
 
 val list: List[Int] = List.range(1, 5)
 // list: List[Int] = List(1, 2, 3, 4)))
@@ -94,15 +94,15 @@ val optionByPredicate: ((Int, Int)) => Option[Int] =
 
 val fromTraverse: IndexedTraversal[Int, List[Int], Int] =
  IndexedTraversal.fromTraverse[List, Int]
-// fromTraverse: proptics.IndexedTraversal[Int,List[Int],Int] = 
-//   proptics.IndexedTraversal_$$anon$8@2245a36a
+// fromTraverse: theodolite.IndexedTraversal[Int,List[Int],Int] = 
+//   theodolite.IndexedTraversal_$$anon$8@2245a36a
 ```
 
 This is how we can create an `IndexedTraversal` for a `TraverseWithIndex` type:
 
 ```scala
-import proptics.instances.traverseWithIndex._
-// import proptics.instances.traverseWithIndex._
+import theodolite.instances.traverseWithIndex._
+// import theodolite.instances.traverseWithIndex._
 
 import cats.syntax.eq._
 // import cats.syntax.eq._
@@ -128,8 +128,8 @@ val seriesMap: Map[String, List[String]] = Map[String, List[String]](
 val mapIndexedTraverse =
   IndexedTraversal.fromTraverseWithIndex[Map[String, *], String, List[String]]
 // mapIndexedTraverse: 
-//   proptics.IndexedTraversal[String,immutable.Map[String,List[String]],List[String]] = 
-//     proptics.IndexedTraversal_$$anon$28@58891f02
+//   theodolite.IndexedTraversal[String,immutable.Map[String,List[String]],List[String]] = 
+//     theodolite.IndexedTraversal_$$anon$28@58891f02
 
 def bbIsFirst(list: List[String]): Boolean = list.headOption.exists(_ === "Breaking Bad")
 // bbIsFirst(list: List[String]): Boolean
@@ -367,11 +367,11 @@ import cats.syntax.option._
 import cats.instances.list._
 // import cats.instances.list._
 
-import proptics.IndexedTraversal_
-// import proptics.IndexedTraversal_
+import theodolite.IndexedTraversal_
+// import theodolite.IndexedTraversal_
 
-import proptics.syntax.indexedTraversal._
-// import proptics.syntax.indexedTraversal._
+import theodolite.syntax.indexedTraversal._
+// import theodolite.syntax.indexedTraversal._
 
 val list: List[(Int, Int)] = List.range(1, 5).zipWithIndex.map(_.swap)
 // list: List[(Int, Int)] = List((0,1), (1,2), (2,3), (3,4))
@@ -391,7 +391,7 @@ val listOfSomeOptions: List[(Int, Option[Int])] = list.map { case (i, a) => (i, 
 val indexedTraversal: IndexedTraversal_[Int, List[(Int, Option[Int])], List[Int], Option[Int], Int] =
   IndexedTraversal_.fromTraverse[List, Int, Option[Int], Int]
 // indexedTraversal: IndexedTraversal_[Int,List[(Int, Option[Int])],List[Int],Option[Int],Int] = 
-//   proptics.IndexedTraversal_$$anon$8@50ebce6a
+//   theodolite.IndexedTraversal_$$anon$8@50ebce6a
 ```
 
 #### sequence
@@ -406,7 +406,7 @@ indexedTraversal.sequence(listOfSomeOptions)
 
 ## Laws
 
-An `IndexedTraversal` must satisfy all <a href="../../api/proptics/law/IndexedTraversalLaws">IndexedTraversalLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+An `IndexedTraversal` must satisfy all <a href="../../api/theodolite/law/IndexedTraversalLaws">IndexedTraversalLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.instances.list._
@@ -418,16 +418,16 @@ import cats.syntax.eq._
 import cats.{Applicative, Eq}
 // import cats.{Applicative, Eq}
 
-import proptics.IndexedTraversal
-// import proptics.IndexedTraversal
+import theodolite.IndexedTraversal
+// import theodolite.IndexedTraversal
 
 val nel = NonEmptyList.fromListUnsafe(List(1, 2, 3, 4, 5, 6))
 // nel: cats.data.NonEmptyList[Int] = NonEmptyList(1, 2, 3, 4, 5, 6)
 
 val headIndexedTraversal: IndexedTraversal[Int, NonEmptyList[Int], Int] =
   IndexedTraversal[Int, NonEmptyList[Int], Int](nel => (0, nel.head))(nel => i => nel.copy(head = i))
-// headIndexedTraversal: proptics.IndexedTraversal[Int,cats.data.NonEmptyList[Int],Int] = 
-//   proptics.IndexedTraversal_$$anon$9@1e81167a
+// headIndexedTraversal: theodolite.IndexedTraversal[Int,cats.data.NonEmptyList[Int],Int] = 
+//   theodolite.IndexedTraversal_$$anon$9@1e81167a
 ```
 
 #### Traversing with "empty" handler shouldn't change anything

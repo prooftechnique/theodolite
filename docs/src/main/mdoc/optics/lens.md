@@ -20,7 +20,7 @@ val user = User("user99", "user@email.com", AccountSecurity("123456!", mfaEnable
 
 ### Using companion object
 
-`Lens[S, A]` is constructed using the <a href="../../api/proptics/Lens$#apply[S,A](view:S=>A)(set:S=>(A=>S)):proptics.Lens[S,A]">Lens[S, A]#apply</a> method.</br> 
+`Lens[S, A]` is constructed using the <a href="../../api/theodolite/Lens$#apply[S,A](view:S=>A)(set:S=>(A=>S)):theodolite.Lens[S,A]">Lens[S, A]#apply</a> method.</br> 
 For a given `Lens[S, A]` it takes two functions as arguments,`view: S => A` which is a getter function, that produces an `A` given an `S`,
 and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a new structure `S`.
 
@@ -34,7 +34,7 @@ We have user instance, and we want to focus on the email field, so we could
 interact with it.
 
 ```scala
-import proptics.Lens
+import theodolite.Lens
 
 val emailLens = Lens[User, String](_.email)(person => email => person.copy(email = email))
 
@@ -50,7 +50,7 @@ emailLens.set("user@email.it")(user)
 Macros provide a convent way to create a Lens by removing the repetitive boilerplate code
 
 ```scala
-import proptics.macros._
+import theodolite.macros._
 
 val emailLens = GLens[User](_.email)
 
@@ -67,7 +67,7 @@ Syntax is probably the most intuitive way to work with Lenses, you just need to 
 extension method on the object to create a lens
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 val emailLens = 
   User("user99", "user@email.com", AccountSecurity("123456!", mfaEnabled = true))
@@ -82,7 +82,7 @@ emailLens.set("user@email.it")
 
 ## Constructing a polymorphic Lens
 
-`Lens_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Lens_$">Lens_[S, T, A, B]#apply</a> function.</br>
+`Lens_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Lens_$">Lens_[S, T, A, B]#apply</a> function.</br>
 For a given `Lens_[S, T, A, B]` it takes two functions as arguments, `view: S => A` which is a getter function, that produces an `A` given an `S`,
 and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns a structure of `T`.
 
@@ -135,7 +135,7 @@ userPasswordLens.over(_.reverse)(user)
 ### Using macros
 
 ```scala
-import proptics.macros._
+import theodolite.macros._
  
 val userPasswordLens = GLens[User](_.accountSecurity) andThen GLens[AccountSecurity](_.password)
 
@@ -149,7 +149,7 @@ userPasswordLens.set("!111111")(user)
 In fact `GLens` can take nested path in order to create a lens
 
 ```scala
-import proptics.macros._
+import theodolite.macros._
  
 val userPasswordLens = GLens[User](_.accountSecurity.password)
 
@@ -163,7 +163,7 @@ userPasswordLens.set("!111111")(user)
 ### Using Lens syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 val userPasswordLens = 
   User("user99", "user@email.com", AccountSecurity("123456!", mfaEnabled = true))
@@ -178,7 +178,7 @@ userPasswordLens.set("!111111")
 
 ## Methods
 
-#### [view](../../api/proptics/Lens_.html#view(s:S):A) 
+#### [view](../../api/theodolite/Lens_.html#view(s:S):A) 
 ```scala
 /** view the focus of a Lens */
 def view(s: S): A
@@ -189,7 +189,7 @@ emailLens.view(user)
 // val res0: String = user@email.com
 ```
 
-#### [set](../../api/proptics/Lens_.html#set(b:B):S=>T)
+#### [set](../../api/theodolite/Lens_.html#set(b:B):S=>T)
 ```scala
 /** set the focus of a Lens */
 def set(a: A): S => S
@@ -200,7 +200,7 @@ emailLens.set("user@email.it")(user)
 // val res1: User =  User(user99,user@email.it,AccountSecurity(123456!,true))
 ```
 
-#### [over](../../api/proptics/Lens_.html#over(f:A=>B):S=>T)
+#### [over](../../api/theodolite/Lens_.html#over(f:A=>B):S=>T)
 ```scala
 /** modify the focus of a Lens using a function */
 def over(f: A => A): S => S
@@ -211,7 +211,7 @@ emailLens.over(_.replace("com", "it"))(user)
 // val res2: User = User(user99,user@email.it,AccountSecurity(123456!,true))
 ```
 
-#### [traverse](../../api/proptics/Lens_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
+#### [traverse](../../api/theodolite/Lens_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
 ```scala
 /** modify the focus of a Lens using a Functor */
 def traverse[F[_]](s: S)(f: A => F[A])(implicit arg0: Applicative[F]): F[S]
@@ -230,7 +230,7 @@ emailLens.traverse(user2)(isComPostfix)
 // val res4: Option[User] = None
 ```
 
-#### [overF](../../api/proptics/Lens_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
+#### [overF](../../api/theodolite/Lens_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
 ```scala
 /** synonym for traverse, flipped */
 def overF[F[_]](f: A => F[B])(s: S)(implicit arg0: Applicative[F]): F[T]
@@ -251,7 +251,7 @@ partialLens(user2)
 // val res6: Option[User] = None
 ```
 
-#### [exists](../../api/proptics/Lens_.html#exists(f:A=>Boolean):S=>Boolean)
+#### [exists](../../api/theodolite/Lens_.html#exists(f:A=>Boolean):S=>Boolean)
 ```scala
 /** test whether a predicate holds for the focus of a Lens */
 def exists(f: A => Boolean): S => Boolean
@@ -262,7 +262,7 @@ emailLens.exists(_.endsWith("com"))(user)
 // val res7: Boolean = true
 ```
 
-#### [notExists](../../api/proptics/Lens_.html#notExists(f:A=>Boolean):S=>Boolean)
+#### [notExists](../../api/theodolite/Lens_.html#notExists(f:A=>Boolean):S=>Boolean)
 ```scala
 /** test whether a predicate does not hold for the focus of a Lens */
 def notExists(f: A => Boolean): S => Boolean
@@ -273,7 +273,7 @@ emailLens.notExists(_.endsWith("com"))(user)
 // val res8: Boolean = false
 ```
 
-#### [contains](../../api/proptics/Lens_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [contains](../../api/theodolite/Lens_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 ```scala
 /** test whether the focus of a Lens contains a given value */
 def contains(a: A)(s: S)(implicit ev: Eq[A]): Boolean
@@ -284,7 +284,7 @@ emailLens.contains("user@email.it")(user)
 // val res9: Boolean = false
 ```
 
-#### [notContains](../../api/proptics/Lens_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [notContains](../../api/theodolite/Lens_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 ```scala
 /** test whether the focus of a Lens does not contain a given value */
 def notContains(a: A)(s: S)(implicit ev: Eq[A]): Boolean
@@ -295,7 +295,7 @@ emailLens.notContains("user@email.it")(user)
 // val res10: Boolean = true
 ```
 
-#### [find](../../api/proptics/Lens_.html#find(f:A=>Boolean):S=>Option[A])
+#### [find](../../api/theodolite/Lens_.html#find(f:A=>Boolean):S=>Option[A])
 ```scala
 /** find the focus of a Lens that satisfies a predicate, if there is any */
 def find(f: A => Boolean): S => Option[A]
@@ -306,7 +306,7 @@ emailLens.find(_.endsWith("com"))(user)
 // val res11: Option[String] = Some(user@email.com)
 ```
 
-#### [cotraverse](../../api/proptics/Lens_.html#cotraverse[F[_]](fs:F[S])(f:F[A]=>B)(implicitevidence$2:cats.Comonad[F]):T)
+#### [cotraverse](../../api/theodolite/Lens_.html#cotraverse[F[_]](fs:F[S])(f:F[A]=>B)(implicitevidence$2:cats.Comonad[F]):T)
 ```scala
 /** modify an effectual focus of a Lens into the modified focus */
 def cotraverse[F[_]](fs: F[S])(f: F[A] => A)(implicit arg0: Comonad[F]): S
@@ -319,7 +319,7 @@ emailLens.cotraverse(Id(user))(_.replace("com", "it"))
 // val res12: User = User(user99,user@email.it,AccountSecurity(123456!,true))
 ```
 
-#### [zipWithF](../../api/proptics/Lens_.html#zipWithF[F[_]](f:F[A]=>B)(fs:F[S])(implicitevidence$3:cats.Comonad[F]):T)
+#### [zipWithF](../../api/theodolite/Lens_.html#zipWithF[F[_]](f:F[A]=>B)(fs:F[S])(implicitevidence$3:cats.Comonad[F]):T)
 ```scala
 /** synonym for [[cotraverse]], flipped */
 def zipWithF[F[_]](fs: F[S])(f: F[A] => A)(implicit arg0: Comonad[F]): S
@@ -332,7 +332,7 @@ emailLens.zipWithF[Id](identity)(user)
 // val res13: User = User(user99,user@email.it,AccountSecurity(123456!,true))
 ```
 
-#### <a href="../../api/proptics/Lens_.html#zipWith(s1:S,s2:S)(f:(A,A)=>B):T">zipWith</a>
+#### <a href="../../api/theodolite/Lens_.html#zipWith(s1:S,s2:S)(f:(A,A)=>B):T">zipWith</a>
 ```scala
 /** zip two sources of a Lens together provided a binary operation */
 def zipWith(s1: S, s2: S)(f: (A, A) => A): S
@@ -349,7 +349,7 @@ emailLens.zipWith(user, user2) { (s1, s2) =>
 // val res14: User = User(user99,user@email.it,AccountSecurity(123456!,true))
 ```
 
-#### [use](../../api/proptics/Lens_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [use](../../api/theodolite/Lens_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 ```scala
 /** view the focus of a Lens in the state of a monad */
 def use(implicit ev: State[S, A]): State[S, A]
@@ -405,7 +405,7 @@ A `Lens` that does not change its focus/structure, is called `Monomorphic Lens`.
 
 ## Laws
 
-A `Lens` must satisfy all <a href="../../api/proptics/law/LensLaws">LensLaws</a>. These laws reside in the <a href="../../api/proptics/law">proptics.law</a> package.<br/>
+A `Lens` must satisfy all <a href="../../api/theodolite/law/LensLaws">LensLaws</a>. These laws reside in the <a href="../../api/theodolite/law">theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq

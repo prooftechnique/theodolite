@@ -49,7 +49,7 @@ An `IndexedLens` that does not change its focus/structure, is called `Monomorphi
 
 ## Constructing IndexedLens
 
-`IndexedLens_[S, T, A, B]` is constructed using the <a href="../../api/proptics/IndexedLens_$">IndexedLens_[I, S, T, A, B]#apply</a> function.</br>
+`IndexedLens_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/IndexedLens_$">IndexedLens_[I, S, T, A, B]#apply</a> function.</br>
 For a given `IndexedLens_[I, S, T, A, B]` it takes two functions as arguments, `view: S => (A, I)` which is a getter function, that produces an `A` tupled with its index `I` given an `S`, 
 and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns a structure of `T`.
 
@@ -59,7 +59,7 @@ object IndexedLens_ {
 }
 ```
 
-`IndexedLens[I, S, A]` is constructed using the <a href="../../api/proptics/IndexedLens$">IndexedLens[I, S, A]#apply</a> function.</br> 
+`IndexedLens[I, S, A]` is constructed using the <a href="../../api/theodolite/IndexedLens$">IndexedLens[I, S, A]#apply</a> function.</br> 
 For a given `IndexedLens[I, S, A]` it takes two functions as arguments,`view: S => (A, I)` which is a getter function, that produces an `A` tupled with its index `I` given an `S`,
 and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a new structure `S`.
 
@@ -72,8 +72,8 @@ object IndexedLens {
 Consider the case of focusing on the head of an `NonEmptyList`
 
 ```scala
-import proptics.IndexedLens
-// import proptics.IndexedLens
+import theodolite.IndexedLens
+// import theodolite.IndexedLens
 
 import cats.data.NonEmptyList
 // import cats.data.NonEmptyList
@@ -85,8 +85,8 @@ val headIndexedLens: IndexedLens[Int, NonEmptyList[Int], Int] =
   IndexedLens[Int, NonEmptyList[Int], Int](nel => (nel.head, 0)) { nel => i =>
     NonEmptyList(i, nel.tail)
   }
-// headIndexedLens: proptics.IndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
-//   proptics.IndexedLens_$$anon$9@635202f0 
+// headIndexedLens: theodolite.IndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
+//   theodolite.IndexedLens_$$anon$9@635202f0 
 ```
 
 ## Common functions of an IndexedLens
@@ -155,7 +155,7 @@ headIndexedLens.find(_._2 === 0)(nel)
 
 ## Laws
 
-A `IndexedLens` must satisfy all <a href="../../api/proptics/law/IndexedLensLaws">IndexedLensLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+A `IndexedLens` must satisfy all <a href="../../api/theodolite/law/IndexedLensLaws">IndexedLensLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq
@@ -164,8 +164,8 @@ import cats.Eq
 import cats.data.NonEmptyList
 // import cats.data.NonEmptyList
 
-import proptics.IndexedLens
-// import proptics.IndexedLens
+import theodolite.IndexedLens
+// import theodolite.IndexedLens
 
 import cats.syntax.eq._
 // import cats.syntax.eq._

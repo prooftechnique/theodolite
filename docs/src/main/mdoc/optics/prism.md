@@ -20,7 +20,7 @@ val successRequest: Request = Success(200)
 
 ### Using companion object
 
-`Prism[S, A]` is constructed using the <a href="../../api/proptics/Prism$">Prism[S, A]#apply</a> function. For a
+`Prism[S, A]` is constructed using the <a href="../../api/theodolite/Prism$">Prism[S, A]#apply</a> function. For a
 given `Prism[S, A]` it takes two functions as arguments,
 `viewOrModify: S => Either[S, A]` which is a matching function that produces an `Either[S, A]` given an `S`,
 and `review: A => S` function which takes a focus of `A` and returns a new structure of `S`.
@@ -34,7 +34,7 @@ object Prism {
 We can define a `Prism` which focuses on the value of a `Success` Request
 
 ```scala
-import proptics.Prism
+import theodolite.Prism
 import cats.syntax.either._
 
 val successHTTPCodePrism: Prism[Request, Int] =
@@ -66,7 +66,7 @@ object Prism {
 ```
 
 ```scala
-import proptics.Prism
+import theodolite.Prism
 import cats.syntax.option._
 
 val successHTTPCodePrism: Prism[Request, Int] =
@@ -85,7 +85,7 @@ object Prism {
 ```
 
 ```scala
-import proptics.Prism
+import theodolite.Prism
 import cats.syntax.eq._
 
 val successHTTPCodePrism: Prism[Request, Int] =
@@ -97,7 +97,7 @@ val successHTTPCodePrism: Prism[Request, Int] =
 Macros can simplify the way to focus on particular subclass
 
 ```scala
-import proptics.macros._
+import theodolite.macros._
 
 val successHTTPCodePrism = GPrism[Request, Success]
 
@@ -110,7 +110,7 @@ successHTTPCodePrism.set(Success(204))(Error("exception"))
 
 ## Constructing a polymorphic Prism
 
-`Prism_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Prism_$">Prism_[S, T, A, B]#apply</a>
+`Prism_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Prism_$">Prism_[S, T, A, B]#apply</a>
 function.</br>
 For a given `Prism_[S, T, A, B]` it takes two functions as arguments, `viewOrModify: S => Either[T, A]`, which is a
 matching function that produces an `Either[T, A]` given an `S`
@@ -124,7 +124,7 @@ object Prism_ {
 
 ## Methods
 
-#### [viewOrModify](../../api/proptics/Prism_.html#viewOrModify(s:S):Either[T,A])
+#### [viewOrModify](../../api/theodolite/Prism_.html#viewOrModify(s:S):Either[T,A])
 
 ```scala
 /** view the focus or return the modified source of a Prism */
@@ -136,7 +136,7 @@ successHTTPCodePrism.viewOrModify(successRequest)
 // val res0: Either[Request,Int] = Right(200)
 ```
 
-#### [preview](../../api/proptics/Prism_.html#preview(s:S):Option[A])
+#### [preview](../../api/theodolite/Prism_.html#preview(s:S):Option[A])
 
 ```scala
 /** view the focus of a Prism, if there is any */
@@ -148,7 +148,7 @@ successHTTPCodePrism.preview(successRequest)
 // val res1: Option[Int] = Some(200)
 ```
 
-#### [review](../../api/proptics/Prism_.html#review(b:B):T)
+#### [review](../../api/theodolite/Prism_.html#review(b:B):T)
 
 ```scala
 /** view the source of a Prism, (construct an S from an A) */
@@ -160,7 +160,7 @@ successHTTPCodePrism.review(201)
 // val res2: Request = Success(201)
 ```
 
-#### [set](../../api/proptics/Prism_.html#set(b:B):S=>T)
+#### [set](../../api/theodolite/Prism_.html#set(b:B):S=>T)
 
 ```scala
 /** set the focus of a Prism */
@@ -172,7 +172,7 @@ successHTTPCodePrism.set(202)(successRequest)
 // val res3: : Request = Success(202)
 ```
 
-#### [setOption](../../api/proptics/Prism_.html#setOption(b:B):S=>Option[T])
+#### [setOption](../../api/theodolite/Prism_.html#setOption(b:B):S=>Option[T])
 
 ```scala
 /** set the focus of a Prism conditionally if it is not None */
@@ -187,7 +187,7 @@ successHTTPCodePrism.setOption(204)(Pending)
 // val res5: Option[Request] = None
 ```
 
-#### [over](../../api/proptics/Prism_.html#over(f:A=>B):S=>T)
+#### [over](../../api/theodolite/Prism_.html#over(f:A=>B):S=>T)
 
 ```scala
 /** modify the focus type of a Prism using a function */
@@ -202,7 +202,7 @@ successHTTPCodePrism.over(_ + 4)(Pending)
 // val res7: Request = Pending
 ```
 
-#### [overOption](../../api/proptics/Prism_.html#overOption(f:A=>B):S=>Option[T])
+#### [overOption](../../api/theodolite/Prism_.html#overOption(f:A=>B):S=>Option[T])
 
 ```scala
 /** modify the focus of a Prism using a function conditionally if it is not None */
@@ -217,7 +217,7 @@ successHTTPCodePrism.overOption(_ + 4)(Pending)
 // val res9: Option[Request] = None
 ```
 
-#### [traverse](../../api/proptics/Prism_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
+#### [traverse](../../api/theodolite/Prism_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
 
 ```scala
 /** modify the focus type of a Prism using a cats.Functor */
@@ -237,7 +237,7 @@ successHTTPCodePrism.traverse(Pending)(is200Response)
 // val res11: Option[Request] = Some(Pending)
 ```
 
-#### [overF](../../api/proptics/Prism_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
+#### [overF](../../api/theodolite/Prism_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
 
 ```scala
 /** synonym for traverse, flipped */
@@ -259,7 +259,7 @@ partialPrism(Pending)
 // val res13: Option[Request] = Some(Pending)
 ```
 
-#### [exists](../../api/proptics/Prism_.html#exists(f:A=>Boolean):S=>Boolean)
+#### [exists](../../api/theodolite/Prism_.html#exists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate holds for the focus of a Prism */
@@ -273,7 +273,7 @@ successHTTPCodePrism.exists(_ === 200)(successRequest)
 // val res14: Boolean = true
 ```
 
-#### [notExists](../../api/proptics/Prism_.html#notExists(f:A=>Boolean):S=>Boolean)
+#### [notExists](../../api/theodolite/Prism_.html#notExists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate does not hold for the focus of a Prism */
@@ -287,7 +287,7 @@ successHTTPCodePrism.notExists(_ === 200)(successRequest)
 // val res15: Boolean = false
 ```
 
-#### [contains](../../api/proptics/Prism_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [contains](../../api/theodolite/Prism_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Prism contains a given value */
@@ -299,7 +299,7 @@ successHTTPCodePrism.contains(204)(successRequest)
 // val res16: Boolean = false
 ```
 
-#### [notContains](../../api/proptics/Prism_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [notContains](../../api/theodolite/Prism_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Prism does not contain a given value */
@@ -311,7 +311,7 @@ successHTTPCodePrism.notContains(204)(successRequest)
 // val res17: Boolean = true
 ```
 
-#### [isEmpty](../../api/proptics/Prism_.html#isEmpty(s:S):Boolean)
+#### [isEmpty](../../api/theodolite/Prism_.html#isEmpty(s:S):Boolean)
 
 ```scala
 /** check if the Prism does not contain a focus */
@@ -326,7 +326,7 @@ successHTTPCodePrism.isEmpty(Pending)
 // val res19: Boolean = true
 ```
 
-#### [nonEmpty](../../api/proptics/Prism_.html#nonEmpty(s:S):Boolean)
+#### [nonEmpty](../../api/theodolite/Prism_.html#nonEmpty(s:S):Boolean)
 
 ```scala
 /** check if the Prism contains a focus */
@@ -341,7 +341,7 @@ successHTTPCodePrism.nonEmpty(Pending)
 // val res21: Boolean = false
 ```
 
-#### [find](../../api/proptics/Prism_.html#find(f:A=>Boolean):S=>Option[A])
+#### [find](../../api/theodolite/Prism_.html#find(f:A=>Boolean):S=>Option[A])
 
 ```scala
 /** find the focus of a Prism that satisfies a predicate, if there is any */
@@ -355,7 +355,7 @@ successHTTPCodePrism.find(_ === 200)(Pending)
 // val res22: Option[String] = None
 ```
 
-#### <a href="../../api/proptics/Prism_.html#failover[F[_]](f:A=>B)(s:S)(implicitev0:proptics.profunctor.Choice[[β$3$,γ$4$]cats.data.Kleisli[[β$2$](proptics.data.Disj[Boolean],β$2$),β$3$,γ$4$]],implicitev1:cats.Alternative[F]):F[T]">failover</a>
+#### <a href="../../api/theodolite/Prism_.html#failover[F[_]](f:A=>B)(s:S)(implicitev0:theodolite.profunctor.Choice[[β$3$,γ$4$]cats.data.Kleisli[[β$2$](theodolite.data.Disj[Boolean],β$2$),β$3$,γ$4$]],implicitev1:cats.Alternative[F]):F[T]">failover</a>
 
 ```scala
 /** try to map a function over this Prism, failing if the Prism has no focus */
@@ -375,7 +375,7 @@ successHTTPCodePrism.failover[Option](_ + 4)(Pending)
 // val res24: Option[Request] = None
 ```
 
-#### [forall](../../api/proptics/Prism_.html#forall(f:A=>Boolean):S=>Boolean)
+#### [forall](../../api/theodolite/Prism_.html#forall(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether there is no focus or a predicate holds for the focus of a Prism */
@@ -393,7 +393,7 @@ successHTTPCodePrism.forall(_ === 200)(Pending)
 // val res27: Boolean = true
 ```
 
-#### [forall](../../api/proptics/Prism_.html#forall[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
+#### [forall](../../api/theodolite/Prism_.html#forall[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
 
 ```scala
 /**
@@ -461,8 +461,8 @@ A `Prism` that does not change its focus/structure, is called `Monomorphic Prism
 
 ## Laws
 
-A `Prism` must satisfy all <a href="../../api/proptics/law/PrismLaws">PrismLaws</a>. These laws reside in the <a href="
-../../api/proptics/law/">proptics.law</a> package.<br/>
+A `Prism` must satisfy all <a href="../../api/theodolite/law/PrismLaws">PrismLaws</a>. These laws reside in the <a href="
+../../api/theodolite/law/">theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq

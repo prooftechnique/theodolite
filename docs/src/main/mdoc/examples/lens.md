@@ -6,8 +6,8 @@ title: Lens
 A `Lens` is an optic used to focus on a particular element in a deeply nested data structure.
 
 ```scala
-import proptics.syntax.all._
-import proptics.instances.all._
+import theodolite.syntax.all._
+import theodolite.instances.all._
 
 final case class Oscars(bestPicture: Map[Int, String])
 

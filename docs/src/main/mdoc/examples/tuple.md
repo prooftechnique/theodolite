@@ -8,8 +8,8 @@ title: Tuple
 Swap the elements of a Tuple
 
 ```scala
-import proptics.instances.all._
-import proptics.syntax.all._
+import theodolite.instances.all._
+import theodolite.syntax.all._
 
 final case class Boo(pair: (Int, String))
 

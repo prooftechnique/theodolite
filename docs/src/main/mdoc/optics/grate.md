@@ -7,7 +7,7 @@ A `Grate` is an optic which allows `zipWith` operations.
 
 ## Constructing a monomorphic Grate
 
-`Grate[S, A]` is constructed using the <a href="../../api/proptics/Grate$">Grate[S, A]#apply</a> function.<br/>
+`Grate[S, A]` is constructed using the <a href="../../api/theodolite/Grate$">Grate[S, A]#apply</a> function.<br/>
 `Grate[S, A]` takes a `grate` function, `((S => A) => A) => S`, which is a function that given a function from `(S => A) => A)` will return an `S`, that is
 if we can extract an `A` out of an `S` we will get an `A` and we will have to use this `A` in order to construct a new `S`.
 
@@ -20,7 +20,7 @@ object Grate {
 A simple example would be the accumulation of two tuples of ints `(Int, Int)`
 
 ```scala
-import proptics.{Grate, Grate_}
+import theodolite.{Grate, Grate_}
 
 val grateTuples = Grate[(Int, Int), Int](f => (f(_._1), f(_._2)))
 
@@ -43,7 +43,7 @@ f => (f(_._1), f(_._2))
 
 ## Constructing a polymorphic Grate
 
-`Grate_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Grate_$">Grate_[S, T, A, B]#apply</a> function.<br/>
+`Grate_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Grate_$">Grate_[S, T, A, B]#apply</a> function.<br/>
 `Grate_[S, T, A, B]` takes a `grate` function, `((S => A) => B) => T`, which is a function that given a function from `(S => A) => B)` will return a `T`, that is
 if we can extract an `A` out of an `S` we will get a `B` and we will have to use this `B` in order to construct a `T`.
 
@@ -163,7 +163,7 @@ The client now uses our `Grate` instance instead of calling the recommendation s
 
 ## Methods
 
-#### [review](../../api/proptics/Grate_.html#review(b:B):T)
+#### [review](../../api/theodolite/Grate_.html#review(b:B):T)
 
 ```scala
 /** view the modified source of a Grate */
@@ -175,7 +175,7 @@ grateTuples.review(9)
 // val res0: (Int, Int) = (9,9)
 ```
 
-#### [set](../../api/proptics/Grate_.html#set(b:B):S=>T)
+#### [set](../../api/theodolite/Grate_.html#set(b:B):S=>T)
 
 ```scala
 /** set the modified focus of a Grate */
@@ -187,7 +187,7 @@ grateTuples.set(9)((5, 3))
 // val res1: (Int, Int) = (9,9)
 ```
 
-#### [over](../../api/proptics/Grate_.html#over(f:A=>B):S=>T)
+#### [over](../../api/theodolite/Grate_.html#over(f:A=>B):S=>T)
 
 ```scala
  /** modify the focus type of a Grate */
@@ -199,7 +199,7 @@ grateTuples.over(_ + 1)((5, 2))
 // val res2: (Int, Int) = (6,3)
 ```
 
-#### <a href ="../../api/proptics/Grate_.html#zipWith(s1:S,s2:S)(f:(A,A)=>B):T">zipWith</a>
+#### <a href ="../../api/theodolite/Grate_.html#zipWith(s1:S,s2:S)(f:(A,A)=>B):T">zipWith</a>
 
 ```scala
 /** zip two sources of a Grate together provided a binary operation which modify the focus of a Grate */
@@ -211,7 +211,7 @@ grateTuples.zipWith((2, 5), (3, 4))(_ + _)
 // val res3: (Int, Int) = (5,9)
 ```
 
-#### [cotraverse](../../api/proptics/Grate_.html#cotraverse[F[_]](fs:F[S])(f:F[A]=>B)(implicitevidence$1:cats.Applicative[F]):T)
+#### [cotraverse](../../api/theodolite/Grate_.html#cotraverse[F[_]](fs:F[S])(f:F[A]=>B)(implicitevidence$1:cats.Applicative[F]):T)
 
 ```scala
 /** modify an effectful focus of a Grate to the type of the modified focus */
@@ -223,7 +223,7 @@ grateTuples.cotraverse[Option]((5, 2).some)(_.fold(0)(_ +  1))
 // val res4: (Int, Int) = (5,9)
 ```
 
-#### [zipWithF](../../api/proptics/Grate_.html#zipWithF[F[_]](f:F[A]=>B)(fs:F[S])(implicitevidence$2:cats.Applicative[F]):T)
+#### [zipWithF](../../api/theodolite/Grate_.html#zipWithF[F[_]](f:F[A]=>B)(fs:F[S])(implicitevidence$2:cats.Applicative[F]):T)
 
 ```scala
 /** synonym for cotraverse, flipped */
@@ -276,14 +276,14 @@ A `Grate` that does not change its focus/structure, is called `Monomorphic Grate
 
 ## Laws
 
-A `Grate` must satisfy all <a href="../../api/proptics/law/GrateLaws">GrateLaws</a>. These laws reside in the <a href="../../api/proptics/law/">proptics.law</a> package.<br/>
+A `Grate` must satisfy all <a href="../../api/theodolite/law/GrateLaws">GrateLaws</a>. These laws reside in the <a href="../../api/theodolite/law/">theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq
 import cats.instances.int._
 import cats.syntax.eq._
-import proptics.Grate
-import proptics.profunctor.Closed.closedFunction
+import theodolite.Grate
+import theodolite.profunctor.Closed.closedFunction
 ```
 
 #### identity

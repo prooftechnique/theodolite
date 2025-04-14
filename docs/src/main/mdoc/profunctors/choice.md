@@ -39,8 +39,8 @@ Let's implement an instance of `Choice` for `Function`
 import cats.syntax.either._ // for the leftMap, asRight, asLeft
 // import cats.syntax.either._
 
-import proptics.profunctor.Choice
-// import proptics.profunctor.Choice
+import theodolite.profunctor.Choice
+// import theodolite.profunctor.Choice
 
 implicit val choiceFunction: Choice[Function] = new Choice[Function] {
   override def left[A, B, C](pab: A => B): Either[A, C] => Either[B, C] = _.leftMap(pab)
@@ -49,7 +49,7 @@ implicit val choiceFunction: Choice[Function] = new Choice[Function] {
 
   override def dimap[A, B, C, D](fab: A => B)(f: C => A)(g: B => D): C => D = g compose fab compose f
 }
-// choiceFunction: proptics.profunctor.Choice[Function] = $anon$1@61b256e1
+// choiceFunction: theodolite.profunctor.Choice[Function] = $anon$1@61b256e1
 
 val f: Int => Int = _ * 2
 // f: Int => Int = $Lambda$11374/934306524@6d1a9a1f

@@ -21,7 +21,7 @@ val jNumber: Json = JNumber(9)
 
 ### Using companion object
 
-`AffineTraversal[S, A]` is constructed using the <a href="../../api/proptics/AffineTraversal$">AffineTraversal[S, A]
+`AffineTraversal[S, A]` is constructed using the <a href="../../api/theodolite/AffineTraversal$">AffineTraversal[S, A]
 #apply</a> function.<br/>
 For a given `AffineTraversal[S, A]` it takes two functions as arguments,</br> `viewOrModify: S => Either[S, A]` which is
 a matching function that produces an `Either[S, A]` given </br> an `S`, and `set: S => A => S` function which takes a
@@ -37,7 +37,7 @@ We can define an `AffineTraversal` which focuses on `JNumber`
 
 ```scala
 import cats.syntax.either._
-import proptics.AffineTraversal
+import theodolite.AffineTraversal
 
 def viewOrModify(json: Json): Either[Json, Double] = json match {
   case JNumber(value) => value.asRight[Json]
@@ -77,7 +77,7 @@ object AffineTraversal {
 ```
 
 ```scala
-import proptics.AffineTraversal
+import theodolite.AffineTraversal
 import cats.syntax.option._
 
 def preview(json: Json): Option[Double] = json match {
@@ -104,7 +104,7 @@ object AffineTraversal {
 ```
 
 ```scala
-import proptics.AffineTraversal
+import theodolite.AffineTraversal
 
 def setJson(json: Json): Double => Json = (i: Double) =>
   json match {
@@ -118,7 +118,7 @@ val jsonAffineTraversal =
 
 ## Constructing a polymorphic AffineTraversal
 
-`AffineTraversal_[S, T, A, B]` is constructed using the <a href="../../api/proptics/AffineTraversal_$">
+`AffineTraversal_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/AffineTraversal_$">
 AffineTraversal_[S, T, A, B]#apply</a> function.<br/>
 For a given `AffineTraversal_[S, T, A, B]` it takes two functions as arguments, </br> `viewOrModify: S => Either[T, A]`
 which is a matching function that produces an `Either[T, A]` given an `S`, and `set: S => B => T` function which takes a
@@ -132,7 +132,7 @@ object AffineTraversal_ {
 
 ## Methods
 
-#### [viewOrModify](../../api/proptics/AffineTraversal_.html#viewOrModify(s:S):Either[T,A])
+#### [viewOrModify](../../api/theodolite/AffineTraversal_.html#viewOrModify(s:S):Either[T,A])
 
 ```scala
 /** view the focus or return the modified source of an AffineTraversal */
@@ -147,7 +147,7 @@ jsonAffineTraversal.viewOrModify(JNull)
 // val res1: Either[Json,Double] = Left(JNull)
 ```
 
-#### [preview](../../api/proptics/AffineTraversal_.html#preview(s:S):Option[A])
+#### [preview](../../api/theodolite/AffineTraversal_.html#preview(s:S):Option[A])
 
 ```scala
 /** view the focus of an AffineTraversal, if there is any */
@@ -162,7 +162,7 @@ jsonAffineTraversal.preview(JNull)
 // val res3: Option[Double] = None
 ```
 
-#### [set](../../api/proptics/AffineTraversal_.html#set(b:B):S=>T)
+#### [set](../../api/theodolite/AffineTraversal_.html#set(b:B):S=>T)
 
 ```scala
 /** set the focus of an AffineTraversal */
@@ -177,7 +177,7 @@ jsonAffineTraversal.set(1.0)(JNull)
 // val res5: Json = JNull
 ```
 
-#### [setOption](../../api/proptics/AffineTraversal_.html#setOption(b:B):S=>Option[T])
+#### [setOption](../../api/theodolite/AffineTraversal_.html#setOption(b:B):S=>Option[T])
 
 ```scala
 /** set the focus of an AffineTraversal conditionally if it is not None */
@@ -192,7 +192,7 @@ jsonAffineTraversal.setOption(9)(JNull)
 // val res7: Option[Request] = None
 ```
 
-#### [over](../../api/proptics/AffineTraversal_.html#over(f:A=>B):S=>T)
+#### [over](../../api/theodolite/AffineTraversal_.html#over(f:A=>B):S=>T)
 
 ```scala
 /** modify the focus type of an AffineTraversal using a function */
@@ -208,7 +208,7 @@ jsonAffineTraversal.over(_ + 1)(JNull)
 // val res9: Json = JNull
 ```
 
-#### [overOption](../../api/proptics/AffineTraversal_.html#overOption(f:A=>B):S=>Option[T])
+#### [overOption](../../api/theodolite/AffineTraversal_.html#overOption(f:A=>B):S=>Option[T])
 
 ```scala
 /** modify the focus of an AffineTraversal using a function conditionally if it is not None */
@@ -223,7 +223,7 @@ jsonAffineTraversal.overOption(_ + 1)(JNull)
 // val res11: Option[Json] = None
 ```
 
-#### [traverse](../../api/proptics/AffineTraversal_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
+#### [traverse](../../api/theodolite/AffineTraversal_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
 
 ```scala
 /** modify the focus type of an AffineTraversal using a cats.Functor */
@@ -243,7 +243,7 @@ jsonAffineTraversal.traverse[Option](JNumber(3))(powerOf2IfNumberOf3)
 // val res13: Option[Json] = Some(JNumber(9.0))
 ```
 
-#### [overF](../../api/proptics/AffineTraversal_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
+#### [overF](../../api/theodolite/AffineTraversal_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
 
 ```scala
 /** synonym for [[traverse]], flipped */
@@ -265,7 +265,7 @@ partialAffineTraversal(JNumber(3.0))
 // val res15: Option[Json] = Some(JNumber(9.0))
 ```
 
-#### [exists](../../api/proptics/AffineTraversal_.html#exists(f:A=>Boolean):S=>Boolean)
+#### [exists](../../api/theodolite/AffineTraversal_.html#exists(f:A=>Boolean):S=>Boolean)
 ```scala
 /** test whether a predicate holds for the focus of an AffineTraversal */
 def exists(f: A => Boolean): S => Boolean
@@ -278,7 +278,7 @@ jsonAffineTraversal.exists(_ === 9.0)(jNumber)
 // val res16: Boolean = true
 ```
 
-#### [notExists](../../api/proptics/AffineTraversal_.html#notExists(f:A=>Boolean):S=>Boolean)
+#### [notExists](../../api/theodolite/AffineTraversal_.html#notExists(f:A=>Boolean):S=>Boolean)
 ```scala
 /** test whether a predicate does not hold for the focus of an AffineTraversal */
 def notExists(f: A => Boolean): S => Boolean
@@ -289,7 +289,7 @@ jsonAffineTraversal.notExists(_ === 9.0)(jNumber)
 // val res17: Boolean = false
 ```
 
-#### [contains](../../api/proptics/AffineTraversal_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [contains](../../api/theodolite/AffineTraversal_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 ```scala
 /** test whether the focus of an AffineTraversal contains a given value */
 def contains(a: A)(s: S)(implicit ev: Eq[A]): Boolean
@@ -300,7 +300,7 @@ jsonAffineTraversal.contains(9.0)(jNumber)
 // val res18: Boolean = true
 ```
 
-#### [notContains](../../api/proptics/AffineTraversal_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [notContains](../../api/theodolite/AffineTraversal_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 ```scala
 /** test whether the focus of an AffineTraversal does not contain a given value */
 def notContains(a: A)(s: S)(implicit ev: Eq[A]): Boolean
@@ -311,7 +311,7 @@ jsonAffineTraversal.notContains(9)(jNumber)
 // val res19: Boolean = false
 ```
 
-#### [isEmpty](../../api/proptics/AffineTraversal_.html#isEmpty(s:S):Boolean)
+#### [isEmpty](../../api/theodolite/AffineTraversal_.html#isEmpty(s:S):Boolean)
 
 ```scala
 /** check if the AffineTraversal does not contain a focus */
@@ -326,7 +326,7 @@ jsonAffineTraversal.isEmpty(JNull)
 // val res21: Boolean = true
 ```
 
-#### [nonEmpty](../../api/proptics/AffineTraversal_.html#nonEmpty(s:S):Boolean)
+#### [nonEmpty](../../api/theodolite/AffineTraversal_.html#nonEmpty(s:S):Boolean)
 
 ```scala
 /** check if the AffineTraversal contains a focus */
@@ -341,7 +341,7 @@ jsonAffineTraversal.nonEmpty(JNull)
 // val res23: Boolean = false
 ```
 
-#### [find](../../api/proptics/AffineTraversal_.html#find(f:A=>Boolean):S=>Option[A])
+#### [find](../../api/theodolite/AffineTraversal_.html#find(f:A=>Boolean):S=>Option[A])
 
 ```scala
 /** find the focus of an AffineTraversal that satisfies a predicate, if there is any */
@@ -358,7 +358,7 @@ jsonAffineTraversal.find(_ === 9)(JNull)
 // val res25: Option[String] = None
 ```
 
-#### <a href="../../api/proptics/AffineTraversal_.html#failover[F[_]](f:A=>B)(s:S)(implicitev0:proptics.profunctor.Choice[[β$3$,γ$4$]cats.data.Kleisli[[β$2$](proptics.data.Disj[Boolean],β$2$),β$3$,γ$4$]],implicitev1:cats.arrow.Strong[[β$6$,γ$7$]cats.data.Kleisli[[β$5$](proptics.data.Disj[Boolean],β$5$),β$6$,γ$7$]],implicitev2:cats.Alternative[F]):F[T]">failover</a>
+#### <a href="../../api/theodolite/AffineTraversal_.html#failover[F[_]](f:A=>B)(s:S)(implicitev0:theodolite.profunctor.Choice[[β$3$,γ$4$]cats.data.Kleisli[[β$2$](theodolite.data.Disj[Boolean],β$2$),β$3$,γ$4$]],implicitev1:cats.arrow.Strong[[β$6$,γ$7$]cats.data.Kleisli[[β$5$](theodolite.data.Disj[Boolean],β$5$),β$6$,γ$7$]],implicitev2:cats.Alternative[F]):F[T]">failover</a>
 
 ```scala
 /** try to map a function over this AffineTraversal, failing if the AffineTraversal has no focus */
@@ -379,7 +379,7 @@ jsonAffineTraversal.failover[Option](_ + 1)(JNull)
 // val res27: Option[Request] = None
 ```
 
-#### [forall](../../api/proptics/AffineTraversal_.html#forall(f:A=>Boolean):S=>Boolean)
+#### [forall](../../api/theodolite/AffineTraversal_.html#forall(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether there is no focus or a predicate holds for the focus of an AffineTraversal */
@@ -397,7 +397,7 @@ jsonAffineTraversal.forall(_ === 1.0)(JNull)
 // val res30: Boolean = true
 ```
 
-#### [forall](../../api/proptics/AffineTraversal_.html#forall[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
+#### [forall](../../api/theodolite/AffineTraversal_.html#forall[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
 
 ```scala
 /** 
@@ -465,8 +465,8 @@ An `AffineTraversal` that does not change its focus/structure, is called `Monomo
 
 ## Laws
 
-An `AffineTraversal` must satisfy all <a href="../../api/proptics/law/AffineTraversalLaws">AffineTraversalLaws</a>.
-These laws reside in the <a href="../../api/proptics/law/">proptics.law</a> package.<br/>
+An `AffineTraversal` must satisfy all <a href="../../api/theodolite/law/AffineTraversalLaws">AffineTraversalLaws</a>.
+These laws reside in the <a href="../../api/theodolite/law/">theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq

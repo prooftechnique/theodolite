@@ -70,18 +70,18 @@ implicit def strongShop[E, F]: Strong[({ type P[S, T] = Shop[E, F, S, T] })#P] =
 [ALens](../an-optics/a-lens.md) allows us to export its internal construction logic to a `Shop` using the `toShop` method.
 
 ```scala
-import proptics.ALens
-// import proptics.ALens
+import theodolite.ALens
+// import theodolite.ALens
 
 val tupleLens: ALens[(Int, String), Int] = ALens[(Int, String), Int](_._1) { 
   case(_, s) => i => (i, s) 
 }
-// tupleLens: proptics.ALens[(Int, String),Int] = proptics.ALens_$$anon$12@28eb4316
+// tupleLens: theodolite.ALens[(Int, String),Int] = theodolite.ALens_$$anon$12@28eb4316
 
 val shop = tupleLens.toShop
-//shop: proptics.internal.Shop[Int,Int,(Int, String),(Int, String)] = 
+//shop: theodolite.internal.Shop[Int,Int,(Int, String),(Int, String)] = 
 //  Shop(scala.Function1$$Lambda$32794/0x000000080398f840@51b6fb0e,
-//       proptics.ALens_$$$Lambda$32795/0x000000080398d840@64eeb60e)
+//       theodolite.ALens_$$$Lambda$32795/0x000000080398d840@64eeb60e)
 
 shop.view((9, "Hello"))
 // res0: Int = 9
@@ -93,17 +93,17 @@ shop.set((1, "Hello"))(9)
 We can later on create a new instance of [Lens](../optics/lens.md) or [ALens](../an-optics/an-iso.md) from the shop instance
 
 ```scala
-import proptics.Lens
-// import proptics.Lens
+import theodolite.Lens
+// import theodolite.Lens
 
-import proptics.ALens
-// import proptics.ALens
+import theodolite.ALens
+// import theodolite.ALens
 
 val aLensFromShop: ALens[(Int, String), Int] = ALens[(Int, String), Int](shop.view)(shop.set)
-// aLensFromShop: proptics.ALens[(Int, String),Int] = proptics.ALens_$$anon$12@1e797afb
+// aLensFromShop: theodolite.ALens[(Int, String),Int] = theodolite.ALens_$$anon$12@1e797afb
 
 val lensFromShop: Lens[(Int, String), Int] = Lens[(Int, String), Int](shop.view)(shop.set)
-// lensFromShop: proptics.Lens[(Int, String),Int] = proptics.Lens_$$anon$11@7f2ed0a1
+// lensFromShop: theodolite.Lens[(Int, String),Int] = theodolite.Lens_$$anon$11@7f2ed0a1
 ```
 
 

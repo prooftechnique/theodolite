@@ -75,8 +75,8 @@ implicit def choiceMarket[E, F]: Choice[({ type P[S, T] = Market[E, F, S, T] })#
 [APrism](../an-optics/a-prism.md) allows us to export its internal construction logic to a `Market` using the `toMarket` method.
 
 ```scala
-import proptics.APrism
-// import proptics.APrism
+import theodolite.APrism
+// import theodolite.APrism
 
 sealed trait Json
 // defined trait Json
@@ -88,11 +88,11 @@ case class JString(value: String) extends Json
 // defined class JString
 
 val jsonPrism = APrism.fromPartial[Json, Int] { case JNumber(i) => i }(JNumber)
-// jsonPrism: proptics.APrism[Json,Int] = proptics.APrism_$$anon$14@46d23947
+// jsonPrism: theodolite.APrism[Json,Int] = theodolite.APrism_$$anon$14@46d23947
 
 val market = jsonPrism.toMarket
-// market: proptics.internal.Market[Int,Int,Json,Json] = 
-//   Market(proptics.APrism$$$Lambda$10055/0x0000000801e21040@42cd49b6,JNumber)
+// market: theodolite.internal.Market[Int,Int,Json,Json] = 
+//   Market(theodolite.APrism$$$Lambda$10055/0x0000000801e21040@42cd49b6,JNumber)
 
 jsonPrism.viewOrModify(JNumber(9))
 // res0: Either[Json,Int] = Right(9)
@@ -104,15 +104,15 @@ jsonPrism.review(9)
 We can later on create a new instance of an `APrism` or a `Prism` from the Market instance
 
 ```scala
-import proptics.Prsim
-// import proptics.Prsim
+import theodolite.Prsim
+// import theodolite.Prsim
 
-import proptics.APrsim
-// import proptics.APrsim
+import theodolite.APrsim
+// import theodolite.APrsim
 
 val aPrismFromMarket: APrism[Json, Int] = APrism[Json, Int](market.viewOrModify)(market.review)
-// aPrismFromMarket: proptics.APrism[Json,Int] = proptics.APrism_$$anon$14@4d448e44
+// aPrismFromMarket: theodolite.APrism[Json,Int] = theodolite.APrism_$$anon$14@4d448e44
 
 val prismFormMarket: Prism[Json, Int] = Prism[Json, Int](market.viewOrModify)(market.review)
-// prismFormMarket: proptics.Prism[Json,Int] = proptics.Prism_$$anon$13@31871fea
+// prismFormMarket: theodolite.Prism[Json,Int] = theodolite.Prism_$$anon$13@31871fea
 ```

@@ -66,38 +66,38 @@ implicit def profunctorExchange[E, F]: Profunctor[({ type P[S, T] = Exchange[E, 
 [AnIso](../an-optics/an-iso.md) allows us to export its internal construction logic to an `Exchange` using the `toExchange` method.
 
 ```scala
-import proptics.AnIso
-// import proptics.AnIso
+import theodolite.AnIso
+// import theodolite.AnIso
 
 val anIsoStringToList: AnIso[String, List[Char]] = AnIso[String, List[Char]](_.toList)(_.mkString)
-// anIsoStringToList: proptics.AnIso[String,List[Char]] = proptics.AnIso_$$anon$17@74561208
+// anIsoStringToList: theodolite.AnIso[String,List[Char]] = theodolite.AnIso_$$anon$17@74561208
 
 val exchange = anIsoStringToList.toExchange
-// exchange: proptics.internal.Exchange[List[Char],List[Char],String,String] = 
+// exchange: theodolite.internal.Exchange[List[Char],List[Char],String,String] = 
 //   Exchange(scala.Function1$$Lambda$9364/0x0000000801a34040@419490d4,
 //            scala.Function1$$Lambda$9364/0x0000000801a34040@78d86219)
 
-exchange.view("Proptics")
+exchange.view("Theodolite")
 // res0: List[Char] = List(P, r, o, p, t, i, c, s)
 
-exchange.review("Proptics".toList)
-// res1: String = Proptics
+exchange.review("Theodolite".toList)
+// res1: String = Theodolite
 ```
 
 We can later on create a new instance of [Iso](../optics/iso.md) or [AnIso](../an-optics/an-iso.md) from the exchange instance
 
 ```scala
-import proptics.Iso
-// import proptics.Iso
+import theodolite.Iso
+// import theodolite.Iso
 
-import proptics.AnIso
-// import proptics.AnIso
+import theodolite.AnIso
+// import theodolite.AnIso
 
 val anIsoFromExchange: AnIso[String, List[Char]] = 
   AnIso[String, List[Char]](exchange.view)(exchange.review)
-// anIsoFromExchange: proptics.AnIso[String,List[Char]] = proptics.AnIso_$$anon$17@bf55e9c
+// anIsoFromExchange: theodolite.AnIso[String,List[Char]] = theodolite.AnIso_$$anon$17@bf55e9c
 
 val isoFromExchange: Iso[String, List[Char]] = Iso[String, List[Char]](exchange.view)(exchange.review)
-// isoFromExchange: proptics.Iso[String,List[Char]] = proptics.Iso_$$anon$16@4c6f5ff7
+// isoFromExchange: theodolite.Iso[String,List[Char]] = theodolite.Iso_$$anon$16@4c6f5ff7
 ```
 

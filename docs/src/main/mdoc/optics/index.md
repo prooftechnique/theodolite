@@ -54,11 +54,11 @@ val indexMap = Index[Map[String, List[String]], String, List[String]]
 ``` 
 
 ```scala
-// import proptics.Index
+// import theodolite.Index
 
-import proptics.instances.index._
-import proptics.typeclass.Index // summoner of the instance
-// import proptics.instances.index._
+import theodolite.instances.index._
+import theodolite.typeclass.Index // summoner of the instance
+// import theodolite.instances.index._
 
 val seriesMap: Map[String, List[String]] = Map[String, List[String]](
   "tt0903747" -> List("True Detective", "Fargo", "Dexter"),
@@ -75,8 +75,8 @@ val seriesMap: Map[String, List[String]] = Map[String, List[String]](
 // summon of the instance
 val indexMap: Index[Map[String, List[String]], String, List[String]] =
   Index[Map[String, List[String]], String, List[String]]  
-// proptics.Index[Map[String,List[String]],String,List[String]] = 
-//   proptics.instances.IndexInstances$$anon$8@46398364
+// theodolite.Index[Map[String,List[String]],String,List[String]] = 
+//   theodolite.instances.IndexInstances$$anon$8@46398364
 
 atMap.at("tt0903747").set(List())(seriesMap)
 // res0: Option[List[String]] = Some(List(True Detective, Fargo, Dexter))

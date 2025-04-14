@@ -1,0 +1,103 @@
+package theodolite.syntax
+
+import cats.Applicative
+import cats.data.{Nested, State}
+import cats.syntax.apply._
+import cats.syntax.eq._
+
+import theodolite.internal.{Bazaar, Sellable}
+import theodolite.profunctor.{Star, Traversing, Wander}
+import theodolite.rank2types.Rank2TypeTraversalLike
+import theodolite.syntax.star._
+import theodolite.{Lens_, Traversal, Traversal_}
+
+trait TraversalSyntax {
+  implicit final def traversalElementOps[S, T, A](traversal: Traversal_[S, T, A, A]): TraversalElementOps[S, T, A] = TraversalElementOps(traversal)
+
+  implicit final def traversalFSequenceOps[F[_], S, T, A](traversal: Traversal_[S, T, F[A], A]): TraversalFSequenceOps[F, S, T, A] = TraversalFSequenceOps(traversal)
+}
+
+final case class TraversalElementOps[S, T, A](private val traversal: Traversal_[S, T, A, A]) extends AnyVal {
+  /** convert a [[Traversal]] into a [[theodolite.Lens]] over a list of the [[Traversal]]'s foci */
+  def partsOf(implicit ev0: Sellable[* => *, Bazaar[* => *, *, *, Unit, *]]): Lens_[S, T, List[A], List[A]] =
+    Traversal.partsOf(traversal)
+
+  /** narrow the focus of a [[Traversal_]] to a single element */
+  def single(i: Int): Traversal_[S, T, A, A] = traverseWhileIndex(_ === i)
+
+  /** traverse elements of a [[Traversal_]] whose index satisfy a predicate */
+  def filterByIndex(predicate: Int => Boolean): Traversal_[S, T, A, A] = traverseWhileIndex(predicate)
+
+  /** select the first n elements of a [[Traversal_]] */
+  def take(i: Int): Traversal_[S, T, A, A] = filterByIndex(_ < i)
+
+  /** select all elements of a [[Traversal_]] except first n ones */
+  def drop(i: Int): Traversal_[S, T, A, A] = filterByIndex(_ >= i)
+
+  /** take longest prefix of elements of a [[Traversal_]] that satisfy a predicate */
+  def takeWhile(predicate: A => Boolean)(implicit ev0: Applicative[State[Boolean, *]]): Traversal_[S, T, A, A] =
+    traverseWhile(predicate, take = true)
+
+  /** drop longest prefix of elements of a [[Traversal_]] that satisfy a predicate */
+  def dropWhile(predicate: A => Boolean)(implicit ev0: Applicative[State[Boolean, *]]): Traversal_[S, T, A, A] =
+    traverseWhile(predicate, take = false)
+
+  private[TraversalElementOps] def traverseWhile(predicate: A => Boolean, take: Boolean)(implicit ev0: Applicative[State[Boolean, *]]): Traversal_[S, T, A, A] =
+    Traversal_(new Rank2TypeTraversalLike[S, T, A, A] {
+      override def apply[P[_, _]](pab: P[A, A])(implicit ev1: Wander[P]): P[S, T] = {
+        val traversing = new Traversing[S, T, A, A] {
+          override def apply[F[_]](f: A => F[A])(s: S)(implicit ev2: Applicative[F]): F[T] = {
+            val state: State[Boolean, Unit] = State.apply[Boolean, Unit](b => (b, ()))
+            val starNested: Star[Nested[State[Boolean, *], F, *], A, A] = Star { a =>
+              val composed = state.modify(_ && predicate(a)) *> (state.get, ev0.pure(a)).mapN { (b, a) =>
+                if (b)
+                  if (take) f(a) else ev2.pure(a)
+                else if (take) ev2.pure(a)
+                else f(a)
+              }
+
+              Nested(composed)
+            }
+
+            traversal(starNested)
+              .runStar(s)
+              .value
+              .runA(true)
+              .value
+          }
+        }
+
+        ev1.wander(traversing)(pab)
+      }
+    })
+
+  private[TraversalElementOps] def traverseWhileIndex(predicate: Int => Boolean)(implicit ev0: Applicative[State[Int, *]]): Traversal_[S, T, A, A] =
+    Traversal_(new Rank2TypeTraversalLike[S, T, A, A] {
+      override def apply[P[_, _]](pab: P[A, A])(implicit ev1: Wander[P]): P[S, T] = {
+        val traversing = new Traversing[S, T, A, A] {
+          override def apply[F[_]](f: A => F[A])(s: S)(implicit ev2: Applicative[F]): F[T] = {
+            val state: State[Int, Unit] = State.apply[Int, Unit](i => (i, ()))
+            val starNested: Star[Nested[State[Int, *], F, *], A, A] = Star { a =>
+              val composed =
+                (state.get, ev0.pure(a)).mapN((i, a) => if (predicate(i)) f(a) else ev2.pure(a)) <* state.modify(_ + 1)
+
+              Nested(composed)
+            }
+
+            traversal(starNested)
+              .runStar(s)
+              .value
+              .runA(0)
+              .value
+          }
+        }
+
+        ev1.wander(traversing)(pab)
+      }
+    })
+}
+
+final case class TraversalFSequenceOps[F[_], S, T, A](private val traversal: Traversal_[S, T, F[A], A]) extends AnyVal {
+  /** invert a structure of S containing F[A] to F[T], a structure T containing A's inside an Applicative Functor */
+  def sequence(s: S)(implicit ev: Applicative[F]): F[T] = traversal.traverse(s)(identity)
+}

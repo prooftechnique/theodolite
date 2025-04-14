@@ -50,7 +50,7 @@ An `APrism` that does not change its focus/structure, is called `Monomorphic APr
 
 ## Constructing APrisms
 
-`APrism_[S, T, A, B]` is constructed using the <a href="../../api/proptics/APrism_$">APrism_[S, T, A, B]#apply</a> function.</br>
+`APrism_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/APrism_$">APrism_[S, T, A, B]#apply</a> function.</br>
 For a given `APrism_[S, T, A, B]` it takes two functions as arguments, `viewOrModify: S => Either[T, A]`, which is a matching function that produces an `Either[T, A]` given an `S`
 and `review: B => T ` function which takes a focus of `B` and returns a structure of `T`.
 
@@ -60,7 +60,7 @@ object APrism_ {
 }
 ```
 
-`APrism[S, A]` is constructed using the <a href="../../api/proptics/APrism$">APrism[S, A]#apply</a> function. For a given `APrism[S, A]` it takes two functions as arguments,
+`APrism[S, A]` is constructed using the <a href="../../api/theodolite/APrism$">APrism[S, A]#apply</a> function. For a given `APrism[S, A]` it takes two functions as arguments,
 `viewOrModify: S => Either[S, A]` which is a matching function that produces an `Either[S, A]` given an `S`, and `review: A => S` function which takes a focus of `A` and returns a new structure of `S`.
 
 ```scala
@@ -91,8 +91,8 @@ val request: successRequest = Success(200)
 We can define an `APrism` which focuses on `Success` request
 
 ```scala
-import proptics.APrism
-// import proptics.APrism
+import theodolite.APrism
+// import theodolite.APrism
 
 import cats.syntax.either._
 // import cats.syntax.either._
@@ -101,7 +101,7 @@ val successRequestPrism: APrism[Request, Int] = APrism[Request, Int] {
   case Success(value) => value.asRight[Request]
   case req            => req.asLeft[Int]
 }(Success)
-// successRequestPrism: proptics.APrism[Request,Int] = proptics.APrism_$$anon$13@be4228d
+// successRequestPrism: theodolite.APrism[Request,Int] = theodolite.APrism_$$anon$13@be4228d
 ```
  
 A more concise version would be using the `fromPreview` method
@@ -113,8 +113,8 @@ object APrism {
 ```
 
 ```scala
-import proptics.APrism
-// import proptics.APrism
+import theodolite.APrism
+// import theodolite.APrism
 
 import cats.syntax.option._
 // import cats.syntax.option._
@@ -123,7 +123,7 @@ val successRequestPrism: APrism[Request, Int] = APrism.fromPreview[Request, Int]
   case Success(value) => value.some
   case _            => None
 }(Success)
-// successRequestPrism: proptics.APrism[Request,Int] = proptics.APrism_$$anon$13@237ad392
+// successRequestPrism: theodolite.APrism[Request,Int] = theodolite.APrism_$$anon$13@237ad392
 ```
 
 An even more concise version would be using the `fromPartial` method
@@ -135,15 +135,15 @@ object APrism {
 ```
 
 ```scala
-import proptics.APrism
-// import proptics.APrism
+import theodolite.APrism
+// import theodolite.APrism
 
 import cats.syntax.eq._ // triple equals (===) 
 // import cats.syntax.eq._
 
 val successRequestPrism: APrism[Request, Int] =
   APrism.fromPartial[Request, Int] { case Success(value) => value }(Success)
-// successRequestPrism: proptics.APrism[Request,Int] = proptics.APrism_$$anon$13@1fa5e3fb
+// successRequestPrism: theodolite.APrism[Request,Int] = theodolite.APrism_$$anon$13@1fa5e3fb
 ```
 
 ## Common functions of an APrism
@@ -260,11 +260,11 @@ successRequestPrism.find(_ === 204)(successRequest)
 ```scala
 val successRequestPrism: APrism[Request, Int] =
   APrism.fromPartial[Request, Int] { case Success(value) => value }(Success)
-// successRequestPrism: proptics.APrism[Request,Int] = proptics.APrism_$$anon$13@1fa5e3fb
+// successRequestPrism: theodolite.APrism[Request,Int] = theodolite.APrism_$$anon$13@1fa5e3fb
 
 val market = successRequestPrism.toMarket
-// market: proptics.internal.Market[Int,Int,Request,Request] =
-//   Market(proptics.APrism$$$Lambda$6201/0x0000000801d56840@71882c89,Success)
+// market: theodolite.internal.Market[Int,Int,Request,Request] =
+//   Market(theodolite.APrism$$$Lambda$6201/0x0000000801d56840@71882c89,Success)
 
 market.viewOrModify(Success(200))
 // res0: Either[Request,Int] = Right(200)
@@ -276,22 +276,22 @@ market.review(9)
 We can later on create a new instance of an `APrism` or a `Prism` from the Market instance
 
 ```scala
-import proptics.Prsim
-// import proptics.Prsim
+import theodolite.Prsim
+// import theodolite.Prsim
 
-import proptics.APrsim
-// import proptics.APrsim
+import theodolite.APrsim
+// import theodolite.APrsim
 
 val aPrismFromMarket: APrism[Json, Int] = APrism[Request, Int](market.viewOrModify)(market.review)
-// aPrismFromMarket: proptics.APrism[Request,Int] = proptics.APrism_$$anon$14@72c21447
+// aPrismFromMarket: theodolite.APrism[Request,Int] = theodolite.APrism_$$anon$14@72c21447
 
 val prismFormMarket: Prism[Request, Int] = Prism[Request, Int](market.viewOrModify)(market.review)
-// prismFormMarket: proptics.Prism[Request,Int] = proptics.Prism_$$anon$13@afe505b
+// prismFormMarket: theodolite.Prism[Request,Int] = theodolite.Prism_$$anon$13@afe505b
 ```
 
 ## Laws
 
-An `APrism` must satisfy all <a href="../../api/proptics/law/APrismLaws">APrismLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+An `APrism` must satisfy all <a href="../../api/theodolite/law/APrismLaws">APrismLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq

@@ -156,27 +156,27 @@ implicit def wanderBazaar[P[_, _], G, H]: Wander[({ type B[S, T] = Bazaar[P, G, 
 ```scala
 val traversal: ATraversal[(Int, String), String] = 
   ATraversal[(Int, String), String](_._2) { case (i, _) => s => (i, s) }
-// traversal: proptics.ATraversal[(Int, String),String] = proptics.ATraversal_$$anon$22@7218cbb6
+// traversal: theodolite.ATraversal[(Int, String),String] = theodolite.ATraversal_$$anon$22@7218cbb6
 
 val bazaar = traversal.toBazaar
 // bazaar: internal.Bazaar[[α$11$, β$12$]α$11$ => β$12$,String,String,(Int, String),(Int, String)] = 
-//   proptics.ATraversal_$$anon$22$$anon$23@5f364bc2
+//   theodolite.ATraversal_$$anon$22$$anon$23@5f364bc2
 ```
 
 We can later on create a new instance of an [ATraversal](../an-optics/a-traversal.md) or a [Traversal](../optics/traversal.md) from the `Bazaar` instance
 
 ```scala
-import proptics.ATraversal
-// import proptics.ATraversal_
+import theodolite.ATraversal
+// import theodolite.ATraversal_
 
-import proptics.Traversal
-// import proptics.Traversal
+import theodolite.Traversal
+// import theodolite.Traversal
 
 val aTraversalFromBazaar: ATraversal[(Int, String), String] = ATraversal.fromBazaar(bazaar)
-// aTraversalFromBazaar: proptics.ATraversal[(Int, String),String] = 
-//   proptics.ATraversal_$$anon$19@43bf1ac9
+// aTraversalFromBazaar: theodolite.ATraversal[(Int, String),String] = 
+//   theodolite.ATraversal_$$anon$19@43bf1ac9
 
 val traversalFromBazaar: Traversal[(Int, String), String] = Traversal.fromBazaar(bazaar)
-// traversalFromBazaar: proptics.Traversal[(Int, String),String] = 
-//   proptics.Traversal_$$anon$12@7494feef
+// traversalFromBazaar: theodolite.Traversal[(Int, String),String] = 
+//   theodolite.Traversal_$$anon$12@7494feef
 ```

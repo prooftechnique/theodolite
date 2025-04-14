@@ -61,7 +61,7 @@ type IndexedOptic[I, S, A] = IndexedOptic_[I, S, S, A, A]
 
 An `IndexedOptic` that does not change its focus/structure, is called `Monomorphic IndexedOptic`.
 
-While `IndexedOptic_[I, S, T, A, B]` is not really used for the encoding of optics in `Proptics` (does not serve as a base class for all optics, and it is only shown for explanation purposes), 
+While `IndexedOptic_[I, S, T, A, B]` is not really used for the encoding of optics in `Theodolite` (does not serve as a base class for all optics, and it is only shown for explanation purposes), 
 all optics are functions from `Indexed[P, I, A, B]` to `P[S, T]`, where's the `P[_, _]` is a typeclass derived from profunctor.
 
 ## List of all IndexedOptics

@@ -44,7 +44,7 @@ IndexedLens takes a `Strong[P[_, _]]` profunctor therefore an instance of [Stron
 
 ```scala
 import cats.arrow.Strong
-import proptics.internal.Indexed
+import theodolite.internal.Indexed
 
 implicit def strongIndexed[P[_, _], I](implicit ev: Strong[P]): 
   Strong[({ type F[A, B] = Indexed[P, I, A, B] })#F] =
@@ -71,8 +71,8 @@ IndexedTraversal takes a [Wander[P[_, _]]](../profunctors/wander.md) therefore a
 ```scala
 import cats.syntax.either._
 import cats.Applicative
-import proptics.profunctor.{Traversing, Wander}
-import proptics.internal.Indexed
+import theodolite.profunctor.{Traversing, Wander}
+import theodolite.internal.Indexed
 
 implicit def wanderIndexed[P[_, _], I](implicit ev: Wander[P]): 
   Wander[({ type F[A, B] = Indexed[P, I, A, B] })#F] =

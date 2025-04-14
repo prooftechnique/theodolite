@@ -9,8 +9,8 @@ element of the tupled instance:
 
 
 ```scala
-import proptics.instances.all._
-import proptics.syntax.all._
+import theodolite.instances.all._
+import theodolite.syntax.all._
 
 val leftmost = ((("hi!", 3), 2), 1).first.first.first
 

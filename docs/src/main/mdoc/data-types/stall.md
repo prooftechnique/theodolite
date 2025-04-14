@@ -109,8 +109,8 @@ implicit def choiceStall[E, F]: Choice[({ type P[S, T] = Stall[E, F, S, T] })#P]
 [AnAffineTraversal](../an-optics/an-affine-traversal.md) allows us to export its internal construction logic to a `Stall` using the `toStall` method.
 
 ```scala
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 sealed trait Json
 // defined trait Json
@@ -131,9 +131,9 @@ val jsonAffineTraversal =
 // jsonAffineTraversal: AnAffineTraversal[Json,Double] = AnAffineTraversal_$$anon$6@27ce826e
 
 val stall = jsonAffineTraversal.toStall
-//  stall: proptics.internal.Stall[Double,Double,Json,Json] = 
-//    Stall(proptics.AnAffineTraversal_$$$Lambda$6037/0x0000000801cb3040@1adf1c6a,
-//          proptics.AnAffineTraversal_$$$Lambda$6038/0x0000000801cb3840@1a9cda87)
+//  stall: theodolite.internal.Stall[Double,Double,Json,Json] = 
+//    Stall(theodolite.AnAffineTraversal_$$$Lambda$6037/0x0000000801cb3040@1adf1c6a,
+//          theodolite.AnAffineTraversal_$$$Lambda$6038/0x0000000801cb3840@1a9cda87)
 
 stall.viewOrModify(JNumber(9))
 // res0: Either[Json,Double] = Right(9.0)
@@ -145,20 +145,20 @@ stall.set(JNumber(1))(9)
 We can later on create a new instance of an [AnAffineTraversal](../optics/affine-traversal.md) or an [AffineTraversal](../an-optics/an-affine-traversal.md) from the stall instance
 
 ```scala
-import proptics.AffineTraversal
-// import proptics.AffineTraversal
+import theodolite.AffineTraversal
+// import theodolite.AffineTraversal
 
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 val anAffineTraversalFromStall: AnAffineTraversal[Json, Double] = 
   AnAffineTraversal[Json, Double](stall.viewOrModify)(stall.set)
-// anAffineTraversalFromStall: proptics.AnAffineTraversal[Json,Double] = 
-//   proptics.AnAffineTraversal_$$anon$6@77d28f9
+// anAffineTraversalFromStall: theodolite.AnAffineTraversal[Json,Double] = 
+//   theodolite.AnAffineTraversal_$$anon$6@77d28f9
 
 val affineTraversalFromStall: AffineTraversal[Json, Double] = 
   AffineTraversal[Json, Double](stall.viewOrModify)(stall.set)
-// affineTraversalFromStall: proptics.AffineTraversal[Json,Double] = 
-//   proptics.AffineTraversal_$$anon$10@7995e246
+// affineTraversalFromStall: theodolite.AffineTraversal[Json,Double] = 
+//   theodolite.AffineTraversal_$$anon$10@7995e246
 ```
 

@@ -7,15 +7,15 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 inThisBuild(
   List(
-    organization := "io.github.sagifogel",
-    homepage := Some(url("https://github.com/sagifogel/Proptics")),
+    organization := "ch.proofte",
+    homepage := Some(url("https://github.com/prooftechnique/theodolite")),
     licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
     developers := List(
       Developer(
-        "sagifogel",
-        "Sagi Fogel",
-        "sagi.fogel@gmail.com",
-        url("https://github.com/sagifogel")
+        "jhenahan",
+        "Jack Henahan",
+        "root@proofte.ch",
+        url("https://github.com/jhenahan")
       )
     ),
     latestVersion := {
@@ -34,35 +34,35 @@ addCommandAlias("build", "prepare; testJVM")
 addCommandAlias("prepare", "fix; fmt")
 addCommandAlias("check", "fmtCheck; fixCheck")
 addCommandAlias("fix", "all compile:scalafix test:scalafix")
-addCommandAlias("fmt", "all proptics/scalafmtSbt proptics/scalafmtAll")
+addCommandAlias("fmt", "all theodolite/scalafmtSbt theodolite/scalafmtAll")
 addCommandAlias("fixCheck", "compile:scalafix --check ; test:scalafix --check")
-addCommandAlias("fmtCheck", "all proptics/scalafmtSbtCheck proptics/scalafmtCheckAll")
-addCommandAlias("compileJVM", "propticsJVM/test:compile")
-addCommandAlias("compileJS", "propticsJS/test:compile")
-addCommandAlias("testJVM", "propticsJVM/test;")
-addCommandAlias("testJS", "propticsJS/test;")
+addCommandAlias("fmtCheck", "all theodolite/scalafmtSbtCheck theodolite/scalafmtCheckAll")
+addCommandAlias("compileJVM", "theodoliteJVM/test:compile")
+addCommandAlias("compileJS", "theodoliteJS/test:compile")
+addCommandAlias("testJVM", "theodoliteJVM/test;")
+addCommandAlias("testJS", "theodoliteJS/test;")
 addCommandAlias(
   "mimaCheck",
   "all coreJVM/mimaReportBinaryIssues profunctorJVM/mimaReportBinaryIssues"
 )
-lazy val proptics = project
+lazy val theodolite = project
   .in(file("."))
-  .settings(moduleName := "proptics")
+  .settings(moduleName := "theodolite")
   .settings(noPublishSettings)
   .settings(stdSettings)
   .settings(welcomeMessage)
-  .aggregate(propticsJVM, propticsJS)
-  .dependsOn(propticsJVM, propticsJS)
+  .aggregate(theodoliteJVM, theodoliteJS)
+  .dependsOn(theodoliteJVM, theodoliteJS)
   .enablePlugins(ScalaJSPlugin)
 
-lazy val propticsJVM = project
-  .in(file(".propticsJVM"))
+lazy val theodoliteJVM = project
+  .in(file(".theodoliteJVM"))
   .settings(noPublishSettings)
   .aggregate(core.jvm, profunctor.jvm, macros.jvm, law.jvm, test.jvm, examples.jvm)
   .dependsOn(core.jvm, profunctor.jvm, macros.jvm, law.jvm, test.jvm)
 
-lazy val propticsJS = project
-  .in(file(".propticsJS"))
+lazy val theodoliteJS = project
+  .in(file(".theodoliteJS"))
   .settings(noPublishSettings)
   .aggregate(core.js, profunctor.js, macros.js, law.js, test.js, examples.js)
   .dependsOn(core.js, profunctor.js, macros.js, law.js, test.js)
@@ -132,7 +132,7 @@ lazy val test = crossProject(JVMPlatform, JSPlatform)
 lazy val docs = project
   .in(file("docs"))
   .dependsOn(core.jvm, profunctor.jvm, law.jvm)
-  .settings(moduleName := "proptics-docs")
+  .settings(moduleName := "theodolite-docs")
   .settings(noPublishSettings)
   .settings(stdSettings)
   .settings(mdocSettings(core.jvm, profunctor.jvm, law.jvm))

@@ -10,7 +10,7 @@ A `Traversal` is an optic used to focus on zero, one, or many values.</br>
 
 ### Using companion object
 
-`Traversal[S, A]` is constructed using the <a href="../../api/proptics/Traversal$">Traversal[S, A]#apply</a> function.</br>
+`Traversal[S, A]` is constructed using the <a href="../../api/theodolite/Traversal$">Traversal[S, A]#apply</a> function.</br>
 For a given `Traversal[S, A]` it takes two functions as arguments, `view: S => A` which is a getter function, that produces zero, one, or many elements of `A` given an `S`, and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a
 new structure `S` filled will all foci of that `A`.
 
@@ -21,7 +21,7 @@ object Traversal {
 ```
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list: List[Int] = List.range(1, 6)
 val traversal = Traversal[List[Int], Int](_.sum)(ls => i => ls.map(_ + i))
@@ -42,7 +42,7 @@ def fromTraverse[F[_]: Traverse, A]: Traversal[F[A], A]
 ```scala
 import cats.syntax.option._
 import cats.syntax.eq._ // triple equals (===)
-import proptics.Traversal
+import theodolite.Traversal
 
 val list: List[Int] = List.range(1, 6)
 val listTraversal: Traversal[List[Int], Int] = Traversal.fromTraverse[List, Int]
@@ -60,7 +60,7 @@ listTraversal.over(_ + 1)(list)
 ### Using traverse syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 List.range(1, 6)
   .traversal
@@ -76,8 +76,8 @@ You can also use the `each` extension method which is similar, but works also on
 works the same on collections
 
 ```scala
-import proptics.instances.each._
-import proptics.syntax.all._
+import theodolite.instances.each._
+import theodolite.syntax.all._
 
 val list = List.range(1, 6)
 
@@ -91,8 +91,8 @@ list.each.over(_ * 10)
 works differently on tuples
 
 ```scala
-import proptics.instances.each._
-import proptics.syntax.all._
+import theodolite.instances.each._
+import theodolite.syntax.all._
 
 val tuple = ("abcd", "efgh")
 
@@ -113,7 +113,7 @@ def both[G[_, _]: Bitraverse, A]: Traversal[G[A, A], A]
 ```scala
 import cats.instances.option._
 import cats.syntax.eq._
-import proptics.Traversal
+import theodolite.Traversal
 
 val tupleBoth = Traversal.both[(*, *), Int]
 
@@ -129,7 +129,7 @@ def single[F[_]: Traverse, A](i: Int): Traversal[F[A], A]
 ```
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list = List.range(1, 6)
 val singleTraverse =  Traversal.single[List, Int](1)
@@ -141,8 +141,8 @@ singleTraverse.over(_ + 1)(list)
 ### Using single syntax
 
 ```scala
-import proptics.syntax.all._
-import proptics.instances.each._
+import theodolite.syntax.all._
+import theodolite.instances.each._
 
 List.range(1, 6)
  .each
@@ -159,7 +159,7 @@ def take[F[_]: Traverse, A](i: Int): Traversal[F[A], A]
 ```
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list = List.range(1, 6)
 val traversal = Traversal.take[List, Int](2)
@@ -171,8 +171,8 @@ traversal.over(_ * 10)(list)
 ### Using take syntax
 
 ```scala
-import proptics.instances.each._
-import proptics.syntax.all._
+import theodolite.instances.each._
+import theodolite.syntax.all._
 
 List.range(1, 6)
  .each
@@ -189,7 +189,7 @@ def drop[F[_]: Traverse, A](i: Int): Traversal[F[A], A]
 ```
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list = List.range(1, 6)
 val traversal = Traversal.drop[List, Int](2)
@@ -201,8 +201,8 @@ traversal.over(_ * 10)(list)
 ### Using drop syntax
 
 ```scala
-import proptics.instances.each._
-import proptics.syntax.all._
+import theodolite.instances.each._
+import theodolite.syntax.all._
 
 List.range(1, 6)
  .each
@@ -221,7 +221,7 @@ def takeWhile[G[_]: Traverse, A](predicate: A => Boolean): Traversal[G[A], A]
 ```
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list = List(1, 2, 3, 4, 5, 2)
 val traversal = Traversal.takeWhile[List, Int](_ < 3)
@@ -233,8 +233,8 @@ traversal.over(_ * 10)(list)
 ### Using takeWhile syntax
 
 ```scala
-import proptics.instances.each._
-import proptics.syntax.all._
+import theodolite.instances.each._
+import theodolite.syntax.all._
 
 List(1, 2, 3, 4, 5, 2)
  .each
@@ -254,7 +254,7 @@ def dropWhile[G[_]: Traverse, A](predicate: A => Boolean): Traversal[G[A], A]
 ```
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list = List(1, 2, 3, 4, 5, 2)
 val traversal = Traversal.dropWhile[List, Int](_ < 3)
@@ -266,8 +266,8 @@ traversal.over(_ * 10)(list)
 ### Using dropWhile syntax
 
 ```scala
-import proptics.instances.each._
-import proptics.syntax.all._
+import theodolite.instances.each._
+import theodolite.syntax.all._
 
 List(1, 2, 3, 4, 5, 2)
  .each
@@ -278,7 +278,7 @@ List(1, 2, 3, 4, 5, 2)
 
 ## Constructing a polymorphic Traversal
 
-`Traversal_[S, T, A, B]` is constructed using the [Traversal_[S, T, A, B]#apply](/Proptics/api/proptics/Traversal_$.html) function.</br>
+`Traversal_[S, T, A, B]` is constructed using the [Traversal_[S, T, A, B]#apply](/Theodolite/api/theodolite/Traversal_$.html) function.</br>
 For a given `Traversal_[S, T, A, B]` it takes two functions as arguments,
 `view: S => A` which is a getter function, that produces zero, one, or many elements of `A` given an `S`, and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns
 a structure of `T` filled will all foci of that `B`.
@@ -292,13 +292,13 @@ object Traversal_ {
 ## Methods
 
 ```scala
-import proptics.Traversal
+import theodolite.Traversal
 
 val list = List.range(1, 6)
 val listTraversal: Traversal[List[Int], Int] = Traversal.fromTraverse[List, Int]
 ```
 
-#### [view](../../api/proptics/Traversal_.html#view(s:S)(implicitev:cats.Monoid[A]):A)
+#### [view](../../api/theodolite/Traversal_.html#view(s:S)(implicitev:cats.Monoid[A]):A)
 
 ```scala
 /** fold the foci of a Traversal using a cats.Monoid */
@@ -310,7 +310,7 @@ listTraversal.view(list)
 // val res0: Int = 15
 ```
 
-#### [viewAll](../../api/proptics/Traversal_.html#viewAll(s:S):List[A])
+#### [viewAll](../../api/theodolite/Traversal_.html#viewAll(s:S):List[A])
 
 ```scala
 /** collect all the foci of a Traversal into a List */
@@ -322,7 +322,7 @@ listTraversal.viewAll(list)
 // val res1: List[Int] = List(1, 2, 3, 4, 5)
 ```
 
-#### [preview](../../api/proptics/Traversal_.html#preview(s:S):Option[A])
+#### [preview](../../api/theodolite/Traversal_.html#preview(s:S):Option[A])
 
 ```scala
 /** view the first focus of a Traverse, if there is any */
@@ -334,7 +334,7 @@ listTraversal.preview(list)
 // val res2: Option[Int] = Some(1)
 ```
 
-#### [fold](../../api/proptics/Traversal_.html#fold(s:S)(implicitev:cats.Monoid[A]):A)
+#### [fold](../../api/theodolite/Traversal_.html#fold(s:S)(implicitev:cats.Monoid[A]):A)
 
 ```scala
 /** synonym for view */
@@ -346,7 +346,7 @@ listTraversal.fold(list)
 // val res3: Int = 15
 ```
 
-#### <a href="../../api/proptics/Traversal_.html#foldMap[R](s:S)(f:A=>R)(implicitevidence$1:cats.Monoid[R]):R">foldMap</a>
+#### <a href="../../api/theodolite/Traversal_.html#foldMap[R](s:S)(f:A=>R)(implicitevidence$1:cats.Monoid[R]):R">foldMap</a>
 
 ```scala
 /** map each focus of a Traverse to a cats.Monoid, and combine the results */
@@ -365,7 +365,7 @@ listTraversal.foldMap(list)(isEven)
 // val res4: Option[Int] = Some(6)
 ```
 
-#### <a href="../../api/proptics/Traversal_.html#foldRight[R](s:S)(r:R)(f:(A,R)=>R):R">foldRight</a>
+#### <a href="../../api/theodolite/Traversal_.html#foldRight[R](s:S)(r:R)(f:(A,R)=>R):R">foldRight</a>
 
 ```scala
 /** fold the foci of a Traverse using a binary operator, going right to left */
@@ -377,7 +377,7 @@ listTraversal.foldRight(list)(Vector.empty[Int])(_ +: _)
 // val res5: scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4, 5)
 ```
 
-#### <a href="../../api/proptics/Traversal_.html#foldLeft[R](s:S)(r:R)(f:(R,A)=>R):R">foldLeft</a>
+#### <a href="../../api/theodolite/Traversal_.html#foldLeft[R](s:S)(r:R)(f:(R,A)=>R):R">foldLeft</a>
 
 ```scala
 /** fold the foci of a Traversal using a binary operator, going left to right */
@@ -389,7 +389,7 @@ listTraversal.foldLeft(list)(Vector.empty[Int])(_ :+ _)
 // val res6: scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4, 5)
 ```
 
-#### [set](../../api/proptics/Traversal_.html#set(b:B):S=>T)
+#### [set](../../api/theodolite/Traversal_.html#set(b:B):S=>T)
 
 ```scala
 /** set the focus of a Traversal */
@@ -401,7 +401,7 @@ listTraversal.set(9)(list)
 // val res7: List[Int] = List(9, 9, 9, 9, 9)
 ```
 
-#### [over](../../api/proptics/Traversal_.html#over(f:A=>B):S=>T)
+#### [over](../../api/theodolite/Traversal_.html#over(f:A=>B):S=>T)
 
 ```scala
 /** modify the focus of a Traversal using a function */
@@ -413,7 +413,7 @@ listTraversal.over(_ + 1)(list)
 // val res8: List[Int] = List(2, 3, 4, 5, 6)
 ```
 
-#### [traverse](../../api/proptics/Traversal_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
+#### [traverse](../../api/theodolite/Traversal_.html#traverse[F[_]](s:S)(f:A=>F[B])(implicitevidence$1:cats.Applicative[F]):F[T])
 ```scala
 /** modify the focus of a Traversal using a Functor */
 def traverse[F[_]](s: S)(f: A => F[A])(implicit arg0: Applicative[F]): F[S]
@@ -434,7 +434,7 @@ listTraversal.traverse(list)(_.some)
 // val res10: Option[List[Int]] = Some(List(1, 2, 3, 4))
 ```
 
-#### [overF](../../api/proptics/Traversal_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
+#### [overF](../../api/theodolite/Traversal_.html#overF[F[_]](f:A=>F[B])(s:S)(implicitevidence$2:cats.Applicative[F]):F[T])
 ```scala
 /** synonym for traverse, flipped */
 def overF[F[_]](f: A => F[B])(s: S)(implicit arg0: Applicative[F]): F[T]
@@ -455,7 +455,7 @@ listTraversal.overF(_.some)(list)
 // val res12: Option[List[Int]] = Some(List(1, 2, 3, 4, 5))
 ```
 
-#### [exists](../../api/proptics/Traversal_.html#exists(f:A=>Boolean):S=>Boolean)
+#### [exists](../../api/theodolite/Traversal_.html#exists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate holds for the focus of a Traversal */
@@ -467,7 +467,7 @@ listTraversal.exists(_ < 9)(list)
 // val res13: Boolean = true
 ```
 
-#### [notExists](../../api/proptics/Traversal_.html#notExists(f:A=>Boolean):S=>Boolean)
+#### [notExists](../../api/theodolite/Traversal_.html#notExists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate does not hold for the focus of a Traversal */
@@ -479,7 +479,7 @@ listTraversal .notExists(_ < 9)(list)
 // val res14: Boolean = false
 ```
 
-#### [contains](../../api/proptics/Traversal_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [contains](../../api/theodolite/Traversal_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Traversal contains a given value */
@@ -491,7 +491,7 @@ listTraversal .contains(9)(list)
 // val res15: Boolean = false
 ```
 
-#### [notContains](../../api/proptics/Traversal_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [notContains](../../api/theodolite/Traversal_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Traversal does not contain a given value */
@@ -503,7 +503,7 @@ listTraversal .notContains(9)(list)
 // val res16: Boolean = true
 ```
 
-#### [isEmpty](../../api/proptics/Traversal_.html#isEmpty(s:S):Boolean)
+#### [isEmpty](../../api/theodolite/Traversal_.html#isEmpty(s:S):Boolean)
 
 ```scala
 /** check if the Fold does not contain a focus */
@@ -515,7 +515,7 @@ listTraversal .isEmpty(list)
 // val res17: Boolean = false
 ```
 
-#### [nonEmpty](../../api/proptics/Traversal_.html#nonEmpty(s:S):Boolean)
+#### [nonEmpty](../../api/theodolite/Traversal_.html#nonEmpty(s:S):Boolean)
 
 ```scala
 /** check if the Fold contains a focus */
@@ -527,7 +527,7 @@ listTraversal .nonEmpty(List.empty[Int])
 // val res18: Boolean = false
 ```
 
-#### [find](../../api/proptics/Traversal_.html#find(f:A=>Boolean):S=>Option[A])
+#### [find](../../api/theodolite/Traversal_.html#find(f:A=>Boolean):S=>Option[A])
 
 ```scala
 /** find the focus of an Fold that satisfies a predicate, if there is any */
@@ -541,7 +541,7 @@ listTraversal .find(_ === 9)(list)
 // val res19: Option[Int] = None
 ```
 
-#### [first](../../api/proptics/Traversal_.html#first(s:S):Option[A])
+#### [first](../../api/theodolite/Traversal_.html#first(s:S):Option[A])
 
 ```scala
 /** synonym for preview */
@@ -553,7 +553,7 @@ listTraversal.first(list)
 // val res20: Option[Int] = Some(1)
 ```
 
-#### [last](../../api/proptics/Traversal_.html#last(s:S):Option[A])
+#### [last](../../api/theodolite/Traversal_.html#last(s:S):Option[A])
 
 
 ```scala
@@ -566,7 +566,7 @@ listTraversal.last(list)
 // val res21: Option[Int] = Some(5)
 ```
 
-#### [length](../../api/proptics/Traversal_.html#length(s:S):Int)
+#### [length](../../api/theodolite/Traversal_.html#length(s:S):Int)
 
 ```scala
 /** the number of foci of a Traversal */
@@ -578,7 +578,7 @@ listTraversal.length(list)
 // val res22: Int = 5
 ```
 
-#### [maximum](../../api/proptics/Traversal_.html#maximum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
+#### [maximum](../../api/theodolite/Traversal_.html#maximum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
 
 ```scala
 /** the maximum of all foci of a Traversal, if there is any /*
@@ -592,7 +592,7 @@ listTraversal.maximum(list)
 // val res23: Option[Int] = Some(5)
 ```
 
-#### [minimum](../../api/proptics/Traversal_.html#minimum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
+#### [minimum](../../api/theodolite/Traversal_.html#minimum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
 
 ```scala
 /** the minimum of all foci of a Fold, if there is any /*
@@ -604,7 +604,7 @@ listTraversal.minimum(list)
 // val res24: Option[Int] = Some(1)
 ```
 
-#### [mkString](../../api/proptics/Traversal_.html#mkString(s:S)(implicitev:S<:<Iterable[A]):String)
+#### [mkString](../../api/theodolite/Traversal_.html#mkString(s:S)(implicitev:S<:<Iterable[A]):String)
 
 ```scala
 /** displays all foci of a Traversal in a string */
@@ -617,7 +617,7 @@ listTraversal.mkString(list)
 // val res25: String = 12345
 ```
 
-#### [mkString](../../api/proptics/Traversal_.html#mkString(s:S,sep:String)(implicitev:S<:<Iterable[A]):String)
+#### [mkString](../../api/theodolite/Traversal_.html#mkString(s:S,sep:String)(implicitev:S<:<Iterable[A]):String)
 
 ```scala
 /** displays all foci of a Traversal in a string using a separator */
@@ -630,7 +630,7 @@ listTraversal.mkString(list, ", ")
 ```
 
 
-#### [mkString](../../api/proptics/Traversal_.html#mkString(s:S,start:String,sep:String,end:String)(implicitev:S<:<Iterable[A]):String)
+#### [mkString](../../api/theodolite/Traversal_.html#mkString(s:S,start:String,sep:String,end:String)(implicitev:S<:<Iterable[A]):String)
 
 ```scala
 /** displays all foci of a Traversal in a string using a start, end and a separator */
@@ -642,7 +642,7 @@ listTraversal.mkString(list, "[", ", ", "]")
 // val res27: String = [1, 2, 3, 4, 5]
 ```
 
-#### [intercalate](../../api/proptics/Traversal_.html#intercalate(s:S,a:A)(implicitev0:cats.Monoid[A],implicitev1:S<:<Iterable[A]):A)
+#### [intercalate](../../api/theodolite/Traversal_.html#intercalate(s:S,a:A)(implicitev0:cats.Monoid[A],implicitev1:S<:<Iterable[A]):A)
 
 ```scala
 /** intercalate/insert an element between the existing elements while folding */ 
@@ -657,7 +657,7 @@ listTraversal.intercalate(list, 2)
 // val res29: Int = 23
 ```
 
-#### [forall](../../api/proptics/Traversal_.html#forall(f:A=>Boolean):S=>Boolean)
+#### [forall](../../api/theodolite/Traversal_.html#forall(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether there is no focus or a predicate holds for the focus of a Traversal */
@@ -669,7 +669,7 @@ listTraversal.forall(_ < 9)(list)
 // val res30: Boolean = true
 ```
 
-#### [forall](../../api/proptics/Traversal_.html#forall[R](s:S)(f:A=>R)(implicitevidence$2:spire.algebra.lattice.Heyting[R]):R)
+#### [forall](../../api/theodolite/Traversal_.html#forall[R](s:S)(f:A=>R)(implicitevidence$2:spire.algebra.lattice.Heyting[R]):R)
 
 ```scala
 /**
@@ -686,7 +686,7 @@ listTraversal.forall(list)(_ < 9)
 // val res31: Boolean = true
 ```
 
-#### [any](../../api/proptics/Traversal_.html#any[R](s:S)(f:A=>R)(implicitevidence$2:spire.algebra.lattice.Heyting[R]):R)
+#### [any](../../api/theodolite/Traversal_.html#any[R](s:S)(f:A=>R)(implicitevidence$2:spire.algebra.lattice.Heyting[R]):R)
 
 ```scala
 /** test whether a predicate holds for any focus of a Traversal, using a Heyting algebra */
@@ -700,7 +700,7 @@ listTraversal.any(list)(_ < 2)
 // val res32: Boolean = true
 ```
 
-#### [or](../../api/proptics/Traversal_.html#or(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
+#### [or](../../api/theodolite/Traversal_.html#or(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
 
 ```scala
 /** return the result of a disjunction of all foci of a Traversal, using a algebra */
@@ -714,7 +714,7 @@ listTraversal.any(list)(_ < 2)
 // val res33: Boolean = true
 ```
 
-#### [and](../../api/proptics/Traversal_.html#and(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
+#### [and](../../api/theodolite/Traversal_.html#and(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
 
 ```scala
 /** return the result of a conjunction of all foci of a Fold, using a Heyting algebra */
@@ -731,7 +731,7 @@ boolTraversal.and(boolList)
 // val res34: Boolean = false
 ```
 
-#### [product](../../api/proptics/Traversal_.html#product(s:S)(implicitev:spire.algebra.MultiplicativeMonoid[A]):A)
+#### [product](../../api/theodolite/Traversal_.html#product(s:S)(implicitev:spire.algebra.MultiplicativeMonoid[A]):A)
 
 ```scala
 /** the product of all foci of a Traversal */
@@ -745,7 +745,7 @@ listTraversal.product(list)
 // val res35: Int = 120
 ```
 
-#### [sum](../../api/proptics/Traversal_.html#sum(s:S)(implicitev:spire.algebra.AdditiveMonoid[A]):A)
+#### [sum](../../api/theodolite/Traversal_.html#sum(s:S)(implicitev:spire.algebra.AdditiveMonoid[A]):A)
 
 ```scala
 /** the sum of all foci of a Fold */
@@ -759,7 +759,7 @@ listTraversal.sum(list)
 // val res36: Int = 15
 ```
 
-#### [toList](../../api/proptics/Traversal_.html#toList(s:S):List[A])
+#### [toList](../../api/theodolite/Traversal_.html#toList(s:S):List[A])
 
 ```scala
 /** synonym for viewAll */
@@ -774,7 +774,7 @@ vectorTraversal.toList(vector)
 // val res37: List[Int] = List(1, 2, 3, 4, 5)
 ```
 
-#### [toArray](../../api/proptics/Traversal_.html#toArray[AA>:A](s:S)(implicitev:scala.reflect.ClassTag[AA]):Array[AA])
+#### [toArray](../../api/theodolite/Traversal_.html#toArray[AA>:A](s:S)(implicitev:scala.reflect.ClassTag[AA]):Array[AA])
 
 ```scala
 /** collect all the foci of a Traversal into an Array */
@@ -789,7 +789,7 @@ vectorTraversal.toArray(vector)
 // val res38: Array[Int] = Array(1, 2, 3, 4, 5)
 ```
 
-#### [use](../../api/proptics/Traversal_.html#use(implicitev:cats.data.State[S,A]):cats.data.State[S,List[A]])
+#### [use](../../api/theodolite/Traversal_.html#use(implicitev:cats.data.State[S,A]):cats.data.State[S,List[A]])
 
 ```scala
 /** collect all the foci of a Traversal in the state of a monad */
@@ -813,7 +813,7 @@ listTraversal.use.runS(list).value
 Traversal_[S, T, A, B]
 ```
 
-`Traversal_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Traversal_$">Traversal_[S, T, A, B]#apply</a> function.</br>
+`Traversal_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Traversal_$">Traversal_[S, T, A, B]#apply</a> function.</br>
 For a given `Traversal_[S, T, A, B]` it takes two functions as arguments,
 `view: S => A` which is a getter function, that produces zero, one, or many elements of `A` given an `S`, and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns
 a structure of `T` filled will all foci of that `B`.
@@ -859,13 +859,13 @@ Most of the time we will be dealing with collections. This is the way to create 
 
 ## Laws
 
-A `Traversal` must satisfy all <a href="../../api/proptics/law/TraversalLaws">TraversalLaws</a>. These laws reside in the <a href="../../api/proptics/law/">proptics.law</a> package.<br/>
+A `Traversal` must satisfy all <a href="../../api/theodolite/law/TraversalLaws">TraversalLaws</a>. These laws reside in the <a href="../../api/theodolite/law/">theodolite.law</a> package.<br/>
 
 ```scala
 import cats.instances.list._
 import cats.syntax.eq._
 import cats.{Applicative, Eq}
-import proptics.Traversal
+import theodolite.Traversal
 ```
 
 #### Traversing with "empty" handler shouldn't change anything

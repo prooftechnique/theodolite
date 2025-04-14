@@ -11,7 +11,7 @@ Everything you can do with a Functor, you can do with a Setter.<br/>
 
 ### Using companion object
 
-`Setter[S, A]` is constructed using the <a href="../../api/proptics/Setter$">Setter[S, A]#apply</a> function.</br>
+`Setter[S, A]` is constructed using the <a href="../../api/theodolite/Setter$">Setter[S, A]#apply</a> function.</br>
 For a given `Setter_[S, A]` it takes a function as argument, `(A => A) => S => S`, which is a mapping function `A => A` and a structure `S` and returns a new structure `S`.
 
 ```scala
@@ -21,7 +21,7 @@ object Setter {
 ```
 
 ```scala
-import proptics.Setter
+import theodolite.Setter
 
 val listSetter: Setter[List[Int], Int] = Setter[List[Int], Int](f => ls => ls.map(f))
 
@@ -32,7 +32,7 @@ listSetter.over(_ + 1)(List.range(1, 6))
 ### Using fromFunctor method
 
 ```scala
-import proptics.Setter
+import theodolite.Setter
 import cats.instances.list
 
 val listSetter: Setter[List[Int], Int] = Setter.fromFunctor[List, Int]
@@ -45,7 +45,7 @@ listSetter.over(_ + 1)(List.range(1, 6))
 
 ### Using companion object
 
-`Setter_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Setter_$">Setter_[S, T, A, B]#apply</a> function.</br>
+`Setter_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Setter_$">Setter_[S, T, A, B]#apply</a> function.</br>
 For a given `Setter_[S, T, A, B]` it takes a function as argument, `(A => B) => S => T`, which is a mapping function `A => B` and a structure `S` and returns a structure of `T`.
 
 ```scala
@@ -67,7 +67,7 @@ In order to do it we need to use the `id` property of `Person`. We can use a `Se
 ```scala
 import cats.Eq
 import cats.syntax.eq._
-import proptics.Setter_
+import theodolite.Setter_
 
 final case class Person(id: String, name: String, yearOfBirth: Int)
 
@@ -88,7 +88,7 @@ We can also use the `contramap` method of `cats.Eq` in order to make the code mo
 ```scala
 import cats.Eq
 import cats.syntax.eq._
-import proptics.Setter_
+import theodolite.Setter_
 import cats.syntax.contravariant._
 
 final case class Person(id: String, name: String, yearOfBirth: Int)
@@ -110,7 +110,7 @@ Person("123", "Samuel Eilenberg", 1913) === Person("123", "Samuel Eilenberg", 19
 ```scala
 import cats.Eq
 import cats.syntax.eq._
-import proptics.Setter_
+import theodolite.Setter_
 
 final case class Person(id: String, name: String, yearOfBirth: Int)
 
@@ -126,7 +126,7 @@ Person("123", "Samuel Eilenberg", 1913) === Person("123", "Samuel Eilenberg", 19
 
 ## Methods
 
-#### [set](../../api/proptics/Setter_.html#set(b:B):S=>T)
+#### [set](../../api/theodolite/Setter_.html#set(b:B):S=>T)
 
 ```scala
 /** set the modified focus of a Setter */
@@ -134,7 +134,7 @@ def set(a: A): S => S
 ```
 
 ```scala
-import proptics.Setter
+import theodolite.Setter
 
 val listSetter: Setter[List[Int], Int] = Setter[List[Int], Int](f => ls => ls.map(f))
 
@@ -142,7 +142,7 @@ listSetter.set(9)(List.range(1, 6))
 // res0: List[Int] = List(9, 9, 9, 9, 9)
 ```
 
-#### [over](../../api/proptics/Setter_.html#over(f:A=>B):S=>T)
+#### [over](../../api/theodolite/Setter_.html#over(f:A=>B):S=>T)
 
 ```scala
 /** modify the focus of a Setter using a function */
@@ -150,7 +150,7 @@ def over(f: A => A): S => S
 ```
 
 ```scala
-import proptics.Setter
+import theodolite.Setter
 
 val listSetter: Setter[List[Int], Int] = Setter[List[Int], Int](f => ls => ls.map(f))
 
@@ -199,13 +199,13 @@ A `Setter` that does not change its focus/structure, is called `Monomorphic Sett
 
 ## Laws
 
-A `Setter` must satisfy all <a href="../../api/proptics/law/SetterLaws">SetterLaws</a>. These laws reside in the <a href="../../api/proptics/law/">proptics.law</a> package.
+A `Setter` must satisfy all <a href="../../api/theodolite/law/SetterLaws">SetterLaws</a>. These laws reside in the <a href="../../api/theodolite/law/">theodolite.law</a> package.
 
 ```scala
 import cats.instances.list._
 import cats.syntax.eq._
 import cats.Eq
-import proptics.Setter
+import theodolite.Setter
 
 val fromFunctor: Setter[List[Int], Int] = Setter.fromFunctor[List, Int]
 ```

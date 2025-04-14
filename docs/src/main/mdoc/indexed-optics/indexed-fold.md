@@ -84,7 +84,7 @@ so the representation of can be even more simplified to:
 
 ## Constructing IndexedFolds
 
-`IndexedFold_[I, S, T, A, B]` is constructed using the <a href="../../api/proptics/IndexedFold_$">IndexedFold_[I, S, T, A, B]#apply</a> function.</br>
+`IndexedFold_[I, S, T, A, B]` is constructed using the <a href="../../api/theodolite/IndexedFold_$">IndexedFold_[I, S, T, A, B]#apply</a> function.</br>
 For a given `IndexedFold_[I, S, T, A, B]` takes a fold function `S => (A, I)` as an argument.
 
 ```scala
@@ -93,7 +93,7 @@ object IndexedFold_ {
 }
 ```
 
-`IndexedFold[I, S, A]` is constructed using the <a href="../../api/proptics/IndexedFold$">IndexedFold[I, S, A]#apply</a> function.</br>
+`IndexedFold[I, S, A]` is constructed using the <a href="../../api/theodolite/IndexedFold$">IndexedFold[I, S, A]#apply</a> function.</br>
 For a given `IndexedFold[I, S, A]` it takes a fold function `S => (A, I)` as argument.
 
 ```scala
@@ -112,8 +112,8 @@ import cats.syntax.option._
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
 
-import proptics.IndexedFold
-// import proptics.IndexedFold
+import theodolite.IndexedFold
+// import theodolite.IndexedFold
 
 val list: List[Int] = List.range(1, 5)
 // list: List[Int] = List(1, 2, 3, 4)
@@ -124,14 +124,14 @@ val optionByPredicate: ((Int, Int)) => Option[Int] = {
 // optionByPredicate: ((Int, Int)) => Option[Int] = $Lambda$13713/0x0000000802548840@16fd17e7
 
 val listIndexedFold: IndexedFold[Int, List[Int], Int] = IndexedFold.fromFoldable[List, Int]
-// listIndexedFold: proptics.Fold[List[Int],Int] = proptics.Fold_$$anon$10@6f126b09
+// listIndexedFold: theodolite.Fold[List[Int],Int] = theodolite.Fold_$$anon$10@6f126b09
 ```
 
 This is how we can create an `IndexedFold` for a `FoldableWithIndex` for a` Map[String, List[String]]`:
 
 ```scala
-import proptics.instances.foldableWithIndex._
-// import proptics.instances.foldableWithIndex._
+import theodolite.instances.foldableWithIndex._
+// import theodolite.instances.foldableWithIndex._
 
 import cats.syntax.eq._
 // import cats.syntax.eq._
@@ -155,8 +155,8 @@ val seriesMap: Map[String, List[String]] = Map[String, List[String]](
 //       tt0773262 -> List(Breaking Bad, True Detective, Fargo))
 
 val mapIndexedFold = IndexedFold.fromFoldableWithIndex[Map[String, *], String, List[String]]
-//  mapIndexedFold: proptics.IndexedFold[String,immutable.Map[String,List[String]],List[String]] = 
-//    proptics.IndexedFold$$anon$30@7fa157af
+//  mapIndexedFold: theodolite.IndexedFold[String,immutable.Map[String,List[String]],List[String]] = 
+//    theodolite.IndexedFold$$anon$30@7fa157af
 
 def bbIsFirst(list: List[String]): Boolean = list.headOption.exists(_ === "Breaking Bad")
 // bbIsFirst(list: List[String]): Boolean

@@ -50,7 +50,7 @@ An `AnAffineTraversal` that does not change its foci/structure, is called `Monom
 
 ## Constructing AnAffineTraversal
 
-`AnAffineTraversal_[S, T, A, B]` is constructed using the <a href="../../api/proptics/AnAffineTraversal_$">AnAffineTraversal_[S, A]#apply</a> function.<br/>
+`AnAffineTraversal_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/AnAffineTraversal_$">AnAffineTraversal_[S, A]#apply</a> function.<br/>
 For a given `AnAffineTraversal_[S, T, A, B]` it takes two functions as arguments, </br> `viewOrModify: S => Either[T, A]` which is a matching function that produces an `Either[T, A]` given an `S`,
 and `set: S => B => T` function which takes a structure `S` and a focus `B` and returns a structure of `T`.
 
@@ -60,7 +60,7 @@ object AnAffineTraversal_ {
 }
 ```
 
-`AnAffineTraversal[S, A]` is constructed using the <a href="../../api/proptics/AnAffineTraversal$">AnAffineTraversal[S, A]#apply</a> function.<br/>
+`AnAffineTraversal[S, A]` is constructed using the <a href="../../api/theodolite/AnAffineTraversal$">AnAffineTraversal[S, A]#apply</a> function.<br/>
 For a given `AnAffineTraversal[S, A]` it takes two functions as arguments,</br> `viewOrModify: S => Either[S, A]` which is a matching function that produces an `Either[S, A]` given </br> an `S`,
 and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a </br> new structure of `S`.
 
@@ -89,8 +89,8 @@ case class JNumber(value: Double) extends Json
 We can define an `AnAffineTraversal` which focuses on `JNumber`
 
 ```scala
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
@@ -124,8 +124,8 @@ object AnAffineTraversal {
 ```
 
 ```scala
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
@@ -162,8 +162,8 @@ object AnAffineTraversal {
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
 
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 def setJson(json: Json, i: Double): Json = json match {
   case JNumber(_) => JNumber(i)
@@ -286,8 +286,8 @@ jsonAffineTraversal.find(_ === 10)(JNumber(9))
 `AnAffineTraversal` allows us to export its internal construction logic to a `Stall` using the `toStall` method.
 
 ```scala
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 val jsonAffineTraversal =
   AnAffineTraversal.fromPartial[Json, Double] { case JNumber(i) => i } { json => i =>
@@ -299,9 +299,9 @@ val jsonAffineTraversal =
 // jsonAffineTraversal: AnAffineTraversal[Json,Double] = AnAffineTraversal_$$anon$6@27ce826e
 
 val stall = jsonAffineTraversal.toStall
-// stall: proptics.internal.Stall[Double,Double,Json,Json] = 
-//   Stall(proptics.AnAffineTraversal_$$$Lambda$6577/0x0000000801f18840@79a5f8e3,
-//         proptics.AnAffineTraversal_$$$Lambda$6578/0x0000000801f19840@66918b28)
+// stall: theodolite.internal.Stall[Double,Double,Json,Json] = 
+//   Stall(theodolite.AnAffineTraversal_$$$Lambda$6577/0x0000000801f18840@79a5f8e3,
+//         theodolite.AnAffineTraversal_$$$Lambda$6578/0x0000000801f19840@66918b28)
 
 stall.viewOrModify(JNumber(9))
 // res0: Either[Json,Double] = Right(9.0)
@@ -313,26 +313,26 @@ stall.set(JNumber(1))(9)
 We can later on create a new instance of an `AffineTraversal` or an `AnAffineTraversal` from the stall instance
 
 ```scala
-import proptics.AffineTraversal
-// import proptics.AffineTraversal
+import theodolite.AffineTraversal
+// import theodolite.AffineTraversal
 
-import proptics.AnAffineTraversal
-// import proptics.AnAffineTraversal
+import theodolite.AnAffineTraversal
+// import theodolite.AnAffineTraversal
 
 val anAffineTraversalFromStall: AnAffineTraversal[Json, Double] = 
   AnAffineTraversal[Json, Double](stall.viewOrModify)(stall.set)
-// anAffineTraversalFromStall: proptics.AnAffineTraversal[Json,Double] = 
-//   proptics.AnAffineTraversal_$$anon$6@77d28f9
+// anAffineTraversalFromStall: theodolite.AnAffineTraversal[Json,Double] = 
+//   theodolite.AnAffineTraversal_$$anon$6@77d28f9
 
 val affineTraversalFromStall: AffineTraversal[Json, Double] = 
   AffineTraversal[Json, Double](stall.viewOrModify)(stall.set)
-// affineTraversalFromStall: proptics.AffineTraversal[Json,Double] = 
-//   proptics.AffineTraversal_$$anon$10@7995e246
+// affineTraversalFromStall: theodolite.AffineTraversal[Json,Double] = 
+//   theodolite.AffineTraversal_$$anon$10@7995e246
 ```
 
 ## Laws
 
-An `AnAffineTraversal` must satisfy all <a href="../../api/proptics/law/AnAffineTraversalLaws">AnAffineTraversalLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+An `AnAffineTraversal` must satisfy all <a href="../../api/theodolite/law/AnAffineTraversalLaws">AnAffineTraversalLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq

@@ -17,7 +17,7 @@ IndexedFold[I, S, T, A, B]
 IndexedTraversal[I, S, T, A, B]
 ```
 
-Some of the methods of optics in `proptics` requires an implicit instance of types defined in `Cats` library, like
+Some of the methods of optics in `theodolite` requires an implicit instance of types defined in `Cats` library, like
 `foldMap` which takes an implicit instance of `Monoid[R]`
 
 ```scala
@@ -42,8 +42,8 @@ import cats.syntax.option._
 import cats.syntax.eq._ // triple equals (===)
 // import cats.syntax.eq._
 
-import proptics.Traversal
-// import proptics.Traversal
+import theodolite.Traversal
+// import theodolite.Traversal
 
 val list: List[Int] = List.range(1, 5)
 // list: List[Int] = List(1, 2, 3, 4)
@@ -52,7 +52,7 @@ val optionByPredicate: Int => Option[Int] = i => if (i % 2 === 0) i.some else no
 // optionByPredicate: Int => Option[Int] = $Lambda$12694/0x0000000802bfc3e0@5f962a8b
 
 val listTraversal: Traversal[List[Int], Int] = Traversal.fromTraverse[List, Int]
-// listTraversal: proptics.Traversal[List[Int],Int] = proptics.Traversal_$$anon$12@4e2da5c7
+// listTraversal: theodolite.Traversal[List[Int],Int] = theodolite.Traversal_$$anon$12@4e2da5c7
 ```
 
 Because the return type of `foldMap` is `R` and the function `optionByPredicate` returns an `Option[Int]`, we need to provide an implicit instance of `Monoid[Option[Int]]` in order to fold over the list.<br/>
@@ -113,8 +113,8 @@ import cats.syntax.eq._ // triple equals (===)
 import cats.instances.list._
 // import cats.instances.list._
 
-import proptics.Traversal
-// import proptics.Traversal
+import theodolite.Traversal
+// import theodolite.Traversal
 
 import spire.std.boolean._
 // import spire.std.boolean._
@@ -126,10 +126,10 @@ val boolList = list.map(_ < 2)
 // boolList: List[Boolean] = List(true, false, false, false)
 
 val listTraversal: Traversal[List[Int], Int] = Traversal.fromTraverse[List, Int]
-// listTraversal: proptics.Traversal[List[Int],Int] = proptics.Traversal_$$anon$12@6cb0d58
+// listTraversal: theodolite.Traversal[List[Int],Int] = theodolite.Traversal_$$anon$12@6cb0d58
 
 val boolListTraversal: Traversal[List[Boolean], Boolean] = Traversal.fromTraverse[List, Boolean]
-// boolListTraversal: proptics.Traversal[List[Boolean],Boolean] = proptics.Traversal_$$anon$12@59b0be0
+// boolListTraversal: theodolite.Traversal[List[Boolean],Boolean] = theodolite.Traversal_$$anon$12@59b0be0
 ```
 
 #### and

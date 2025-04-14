@@ -101,7 +101,7 @@ An optic that does not change its focus/structure, is called `Monomorphic Optic`
 
 ## Optic internal encoding
 
-While `Optic_[S, T, A, B]` is not really used for the encoding of optics in `Proptics` (does not serve as a base class for all optics, and it is only shown for explanation purposes), 
+While `Optic_[S, T, A, B]` is not really used for the encoding of optics in `Theodolite` (does not serve as a base class for all optics, and it is only shown for explanation purposes), 
 all optics are functions from `P[A, B]` to `P[S, T]`, where's the `P[_, _]` is a typeclass derived from profunctor.<br/>
 `AnOptic_[S, T, A, B]` is an optic, that takes a data typed shaped liked a profunctor, which has an instance of the same `Profunctor` as the one taken by `Optic_[S, T, A, B]`,
 thus making the data type compatible with `Optic_[S, T, A, B]`.<br/>

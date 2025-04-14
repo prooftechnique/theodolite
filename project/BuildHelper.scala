@@ -123,8 +123,8 @@ object BuildHelper {
   )
 
   def stdProjectSettings(projectName: String): Seq[Def.Setting[_]] = Seq(
-    name := s"Proptics $projectName",
-    moduleName := s"proptics-$projectName"
+    name := s"Theodolite $projectName",
+    moduleName := s"theodolite-$projectName"
   ) ++ stdSettings
 
   def macroDefinitionSettings: Seq[Def.Setting[_]] =
@@ -196,18 +196,18 @@ object BuildHelper {
         .value,
     ScalaUnidoc / unidoc / scalacOptions ++= Seq(
       "-doc-source-url",
-      s"https://github.com/sagifogel/Proptics/tree/v0.5.2€{FILE_PATH}.scala",
+      s"https://github.com/prooftechnique/Theodolite/tree/v0.5.2€{FILE_PATH}.scala",
       "-sourcepath",
       (LocalRootProject / baseDirectory).value.getAbsolutePath,
       "-doc-title",
-      "Proptics",
+      "Theodolite",
       "-doc-version",
       "v0.5.2"
     )
   )
 
   def buildInfoSettings(coreProject: ProjectReference) = Seq(
-    buildInfoPackage := "proptics.build",
+    buildInfoPackage := "theodolite.build",
     buildInfoObject := "info",
     buildInfoKeys := Seq[BuildInfoKey](
       scalaVersion,

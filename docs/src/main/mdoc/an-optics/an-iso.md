@@ -51,7 +51,7 @@ type AnIso[S, A] = AnIso_[S, S, A, A]
 
 ## Constructing AnIsos
 
-`AnIso_[S, T, A, B]` is constructed using the <a href="../../api/proptics/AnIso_$">AnIso_[S, T, A, B]#apply</a> function.</br>
+`AnIso_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/AnIso_$">AnIso_[S, T, A, B]#apply</a> function.</br>
 For a given `AnIso_[S, T, A, B]` it takes two conversion functions as arguments, `view: S => A` which produces an `A` given an `S`, 
 and `review: B => T` which produces a `T` given an `B`.
 
@@ -61,7 +61,7 @@ object AnIso_ {
 }
 ```
 
-`AnIso[S, A]` is constructed using the <a href="../../api/proptics/AnIso$">AnIso[S, A]#apply</a> function. For a given `AnIso[S, A]` it takes two conversion functions as arguments,
+`AnIso[S, A]` is constructed using the <a href="../../api/theodolite/AnIso$">AnIso[S, A]#apply</a> function. For a given `AnIso[S, A]` it takes two conversion functions as arguments,
 `view: S => A` which produces an `A` given an `S`, and `review: A => S` which produces an `S` given an `A`.
 
 ```scala
@@ -71,42 +71,42 @@ object AnIso {
 ```
 
 ```scala
-import proptics.AnIso
-// import proptics.AnIso
+import theodolite.AnIso
+// import theodolite.AnIso
 
 val anIsoStringToList = AnIso[String, List[Char]](_.toList)(_.mkString)
-// anIsoStringToList: proptics.Iso[String,List[Char]] = proptics.Iso_$$anon$16@4b898027  
+// anIsoStringToList: theodolite.Iso[String,List[Char]] = theodolite.Iso_$$anon$16@4b898027  
 ```
 
 ## Common functions of an AnIso
 
 #### view
 ```scala
-anIsoStringToList.view("Proptics") 
+anIsoStringToList.view("Theodolite") 
 // res0: List[Char] = List(P, r, o, p, t, i, c, s)
 ```
 
 #### review
 ```scala
 anIsoStringToList.review(chars)
-// res1: String = Proptics
+// res1: String = Theodolite
 ```
 
 #### exists
 ```scala
-anIsoStringToList.exists(_.length === 8)("Proptics")
+anIsoStringToList.exists(_.length === 8)("Theodolite")
 // res2: Boolean = true
 ```
 
 #### contains
 ```scala
-anIsoStringToList.contains(_.contains(80))("Proptics")
+anIsoStringToList.contains(_.contains(80))("Theodolite")
 // res3: Boolean = true
 ```
 
 #### find
 ```scala
-anIsoStringToList.find(_.contains(80))("Proptics")
+anIsoStringToList.find(_.contains(80))("Theodolite")
 // res4: Option[List[Char]] = Some(List(P, r, o, p, t, i, c, s))
 ```
 
@@ -115,46 +115,46 @@ anIsoStringToList.find(_.contains(80))("Proptics")
 `AnIso` allows us to export its internal construction logic to an `Exchange` using the `toExchange` method.
 
 ```scala
-import proptics.AnIso
-// import proptics.AnIso
+import theodolite.AnIso
+// import theodolite.AnIso
 
 val anIsoStringToList: AnIso[String, List[Char]] = AnIso[String, List[Char]](_.toList)(_.mkString)
-// anIsoStringToList: proptics.AnIso[String,List[Char]] = proptics.AnIso_$$anon$17@74561208
+// anIsoStringToList: theodolite.AnIso[String,List[Char]] = theodolite.AnIso_$$anon$17@74561208
 
 val exchange = anIsoStringToList.toExchange
-// exchange: proptics.internal.Exchange[List[Char],List[Char],String,String] = 
+// exchange: theodolite.internal.Exchange[List[Char],List[Char],String,String] = 
 //   Exchange(scala.Function1$$Lambda$9364/0x0000000801a34040@419490d4,
 //            scala.Function1$$Lambda$9364/0x0000000801a34040@78d86219)
 
-anIsoStringToList.view("Proptics")
+anIsoStringToList.view("Theodolite")
 // res0: List[Char] = List(P, r, o, p, t, i, c, s)
 
-exchange.review("Proptics".toList)
-// res1: String = Proptics
+exchange.review("Theodolite".toList)
+// res1: String = Theodolite
 ```
 
 We can later on create a new instance of `AnIso` or `Iso` from the exchange instance
 
 ```scala
-import proptics.Iso
-// import proptics.Iso
+import theodolite.Iso
+// import theodolite.Iso
 
 val anIsoFromExchange: AnIso[String, List[Char]] = 
   AnIso[String, List[Char]](exchange.view)(exchange.review)
-// anIsoFromExchange: proptics.AnIso[String,List[Char]] = proptics.AnIso_$$anon$17@bf55e9c
+// anIsoFromExchange: theodolite.AnIso[String,List[Char]] = theodolite.AnIso_$$anon$17@bf55e9c
 
 val isoFromExchange: Iso[String, List[Char]] = Iso[String, List[Char]](exchange.view)(exchange.review)
-// isoFromExchange: proptics.Iso[String,List[Char]] = proptics.Iso_$$anon$16@4c6f5ff7
+// isoFromExchange: theodolite.Iso[String,List[Char]] = theodolite.Iso_$$anon$16@4c6f5ff7
 ``` 
 
 ## Laws
 
-`AnIso` must satisfy all <a href="../../api/proptics/law/AnIsoLaws">AnIsoLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+`AnIso` must satisfy all <a href="../../api/theodolite/law/AnIsoLaws">AnIsoLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 All laws constructed from the reversibility law, which says that we can completely reverse the transformation.
 
 ```scala
-import proptics.AnIso
-// import proptics.AnIso
+import theodolite.AnIso
+// import theodolite.AnIso
 
 import cats.Eq
 // import cats.Eq
@@ -166,7 +166,7 @@ import cats.syntax.eq._
 // import cats.syntax.eq._
 
 val anIsoStringToList = AnIso[String, List[Char]](_.toList)(_.mkString)
-// anIsoStringToList: proptics.Iso[String,List[Char]] = proptics.Iso_$$anon$16@4b898027  
+// anIsoStringToList: theodolite.Iso[String,List[Char]] = theodolite.Iso_$$anon$16@4b898027  
 ```
 
 #### Source reversibility
@@ -175,7 +175,7 @@ val anIsoStringToList = AnIso[String, List[Char]](_.toList)(_.mkString)
 def sourceReversibility[S: Eq, A](anIso: AnIso[S, A], s: S): Boolean = 
   anIso.review(iso.view(s)) === s
 
-sourceReversibility(anIsoStringToList, "Proptics")
+sourceReversibility(anIsoStringToList, "Theodolite")
  // res0: Boolean = true
 ```
 
@@ -185,6 +185,6 @@ sourceReversibility(anIsoStringToList, "Proptics")
 def focusReversibility[S, A: Eq](anIso: AnIso[S, A], a: A): Boolean = 
   anIso.view(iso.review(a)) === a
 
-focusReversibility(anIsoStringToList, "Proptics".toList)
+focusReversibility(anIsoStringToList, "Theodolite".toList)
 // res1: Boolean = true
 ```

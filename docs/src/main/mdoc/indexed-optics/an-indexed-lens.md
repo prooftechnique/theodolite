@@ -50,7 +50,7 @@ An `AnIndexedLens` that does not change its focus/structure, is called `Monomorp
 
 ## Constructing AnIndexedLens
 
-`AnIndexedLens_[S, T, A, B]` is constructed using the <a href="../../api/proptics/AnIndexedLens_$">AnIndexedLens_[I, S, T, A, B]#apply</a> function.</br>
+`AnIndexedLens_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/AnIndexedLens_$">AnIndexedLens_[I, S, T, A, B]#apply</a> function.</br>
 For a given `AnIndexedLens_[I, S, T, A, B]` it takes two functions as arguments, `view: S => (A, I)` which is a getter function, that produces an `A` tupled with its index `I` given an `S`,
 and `set: S => B => T` function which takes a structure `S` and a new focus `B` and returns a structure of `T`.
 
@@ -60,7 +60,7 @@ object AnIndexedLens_ {
 }
 ```
 
-`AnIndexedLens[I, S, A]` is constructed using the <a href="../../api/proptics/AnIndexedLens$">AnIndexedLens[I, S, A]#apply</a> function.</br>
+`AnIndexedLens[I, S, A]` is constructed using the <a href="../../api/theodolite/AnIndexedLens$">AnIndexedLens[I, S, A]#apply</a> function.</br>
 For a given `AnIndexedLens[I, S, A]` it takes two functions as arguments,`view: S => (A, I)` which is a getter function, that produces an `A` tupled with its index `I` given an `S`,
 and `set: S => A => S` function which takes a structure `S` and a focus `A` and returns a new structure `S`.
 
@@ -73,8 +73,8 @@ object AnIndexedLens {
 Consider the case of focusing on the head of an `NonEmptyList`
 
 ```scala
-import proptics.AnIndexedLens
-// import proptics.AnIndexedLens
+import theodolite.AnIndexedLens
+// import theodolite.AnIndexedLens
 
 import cats.data.NonEmptyList
 // import cats.data.NonEmptyList
@@ -86,8 +86,8 @@ val headAnIndexedLens: AnIndexedLens[Int, NonEmptyList[Int], Int] =
   AnIndexedLens[Int, NonEmptyList[Int], Int](nel => (nel.head, 0)) { nel => i =>
     NonEmptyList(i, nel.tail)
   }
-// headAnIndexedLens: proptics.AnIndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
-//   proptics.AnIndexedLens_$$anon$9@635202f0 
+// headAnIndexedLens: theodolite.AnIndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
+//   theodolite.AnIndexedLens_$$anon$9@635202f0 
 ```
 
 ## Common functions of an AnIndexedLens
@@ -159,25 +159,25 @@ headAnIndexedLens.find(_._2 === 0)(nel)
 `AnIndexedLens` allows us to export its internal construction logic to a `Shop` using the `toShop` method.
 
 ```scala
-import proptics.AnIndexedLens
-// import proptics.AnIndexedLens
+import theodolite.AnIndexedLens
+// import theodolite.AnIndexedLens
 
 import cats.data.NonEmptyList
 // import cats.data.NonEmptyList
 
 val nelIndexedLens: AnIndexedLens[Int, NonEmptyList[Int], Int] =
   AnIndexedLens[Int, NonEmptyList[Int], Int](ls => (ls.head, 0))(nel => i => nel.copy(head = i))
-// nelIndexedLens: proptics.AnIndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
-//   proptics.AnIndexedLens_$$anon$23@6b60ef61
+// nelIndexedLens: theodolite.AnIndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
+//   theodolite.AnIndexedLens_$$anon$23@6b60ef61
 
 val nel = NonEmptyList.fromListUnsafe(List(1, 2, 3))
 // nel: cats.data.NonEmptyList[Int] = NonEmptyList(1, 2, 3)
 
 val shop = tupleLens.toShop
-// shop: proptics.internal.Shop[(Int, Int),
+// shop: theodolite.internal.Shop[(Int, Int),
 //       Int,cats.data.NonEmptyList[Int],cats.data.NonEmptyList[Int]] = 
 //   Shop(scala.Function1$$Lambda$6356/0x0000000801d11840@1b6fac0f,
-//        proptics.internal.ShopInstances$$anon$1$$Lambda$6357/0x0000000801d11040@3244246f)
+//        theodolite.internal.ShopInstances$$anon$1$$Lambda$6357/0x0000000801d11040@3244246f)
 
 nelIndexedLens.view(nel)
 // res0: (Int, Int) = (1,0)
@@ -186,26 +186,26 @@ nelIndexedLens.view(nel)
 We can later on create a new instance of `AnIndexedLens` or `IndexedLens` from the shop instance
 
 ```scala
-import proptics.IndexedLens
-// import proptics.IndexedLens
+import theodolite.IndexedLens
+// import theodolite.IndexedLens
 
-import proptics.AnIndexedLens
-// import proptics.AnIndexedLens
+import theodolite.AnIndexedLens
+// import theodolite.AnIndexedLens
 
 val indexedLensFromShop: IndexedLens[Int, NonEmptyList[Int], Int] =
   IndexedLens[Int, NonEmptyList[Int], Int](shop.view)(shop.set)
-// idexedLensFromShop: proptics.IndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
-//   proptics.IndexedLens_$$anon$23@247c18f9
+// idexedLensFromShop: theodolite.IndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
+//   theodolite.IndexedLens_$$anon$23@247c18f9
 
 val anIndexedLensFromShop: AnIndexedLens[Int, NonEmptyList[Int], Int] =
   AnIndexedLens[Int, NonEmptyList[Int], Int](shop.view)(shop.set)
-// anIndexedLensFromShop: proptics.AnIndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
-//   proptics.AnIndexedLens_$$anon$23@33321a90
+// anIndexedLensFromShop: theodolite.AnIndexedLens[Int,cats.data.NonEmptyList[Int],Int] = 
+//   theodolite.AnIndexedLens_$$anon$23@33321a90
 ```
 
 ## Laws
 
-A `AnIndexedLens` must satisfy all <a href="../../api/proptics/law/AnIndexedLensLaws">AnIndexedLensLaws</a>. These laws reside in the <a href="../../api/proptics/law/>proptics.law</a> package.<br/>
+A `AnIndexedLens` must satisfy all <a href="../../api/theodolite/law/AnIndexedLensLaws">AnIndexedLensLaws</a>. These laws reside in the <a href="../../api/theodolite/law/>theodolite.law</a> package.<br/>
 
 ```scala
 import cats.Eq
@@ -214,8 +214,8 @@ import cats.Eq
 import cats.data.NonEmptyList
 // import cats.data.NonEmptyList
 
-import proptics.AnIndexedLens
-// import proptics.AnIndexedLens
+import theodolite.AnIndexedLens
+// import theodolite.AnIndexedLens
 
 import cats.syntax.eq._
 // import cats.syntax.eq._

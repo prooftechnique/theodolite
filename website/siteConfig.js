@@ -1,22 +1,22 @@
-const apiUrl = "/Proptics/api/proptics/index.html";
+const apiUrl = "/Theodolite/api/theodolite/index.html";
 
 const siteConfig = {
-  title: 'Proptics[_, _]',
+  title: 'Theodolite[_, _]',
   tagline: 'Profunctor optics and lenses library for Scala',
-  url: 'https://sagifogel.github.io/Proptics',
-  baseUrl: '/Proptics/',
+  url: 'https://proofte.ch/Theodolite',
+  baseUrl: '/Theodolite/',
   apiUrl,
   favicon: 'img/favicon/favicon.ico',
-  logo: '/proptics-transparent.png',
-  repoUrl: 'https://github.com/sagifogel/proptics',
+  logo: '/theodolite-transparent.png',
+  repoUrl: 'https://github.com/prooftechnique/theodolite',
   customDocsPath: "docs/target/mdoc",
-  projectName: 'Proptics',
-  organizationName: 'sagifogel',
+  projectName: 'Theodolite',
+  organizationName: 'prooftechnique',
   docsSideNavCollapsible: true,
   headerLinks: [
-    {href: '/Proptics/docs/overview', label: 'Getting Started'},
+    {href: '/Theodolite/docs/overview', label: 'Getting Started'},
     {href: apiUrl, label: "API Docs"},
-    {href: 'https://github.com/sagifogel/proptics', label: 'GitHub'}
+    {href: 'https://github.com/prooftechnique/theodolite', label: 'GitHub'}
   ],
   colors: {
     primaryColor: '#B9459A',

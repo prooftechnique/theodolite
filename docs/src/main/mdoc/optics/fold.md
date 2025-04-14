@@ -10,7 +10,7 @@ cannot modify its foci. Everything you can do with a Foldable, you can do with a
 
 ### Using companion object
 
-`Fold[S, A]` is constructed using the <a href="../../api/proptics/Fold$">Fold[S, A]#apply</a> function. For a given `Fold[S, A]`
+`Fold[S, A]` is constructed using the <a href="../../api/theodolite/Fold$">Fold[S, A]#apply</a> function. For a given `Fold[S, A]`
 it takes a fold function as argument, `S => A`.
 
 ```scala
@@ -20,7 +20,7 @@ object Fold {
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 
 val fold = Fold[List[Int], Int](_.sum)
 
@@ -39,7 +39,7 @@ def fromFoldable[F[_]: Foldable, A]: Fold[F[A], A]
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 import cats.instances.all._
 
 val list = List(1, 2, 3, 4)
@@ -49,21 +49,21 @@ val tupleFoldable = Fold.fromFoldable[(String, *), Int]
 listFoldable.foldLeft(List(1, 2, 3))(0)(_ + _)
 // val res0: Int = 6
 
-tupleFoldable.foldMap(("Proptics", 8))((i: Int) => i + 1)
+tupleFoldable.foldMap(("Theodolite", 8))((i: Int) => i + 1)
 // val res1: Int = 9
 ```
 
 ### Using foldable syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 List(1, 2, 3)
   .foldable
   .foldLeft(0)(_ + _)
 // val res0: Int = 6
 
-("Proptics", 8)
+("Theodolite", 8)
   .foldable
   .foldMap((i: Int) => i + 1)
 // val res1: Int = 9
@@ -88,7 +88,7 @@ tupleBifoldable.foldMap((1, 8))(identity[Int])
 ### Using bifold syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 (1, 8).bifold.foldMap(identity[Int])
 // val res0: Int = 9
@@ -102,7 +102,7 @@ final def single[F[_]: Foldable, A](i: Int): Fold[F[A], A]
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 
 val singletonlistFoldable = Fold.single[List, Int](1)
 
@@ -113,7 +113,7 @@ singletonListFoldable.foldLeft(List(1, 2, 3))(Vector.empty[Int])(_ :+ _)
 ### Using single syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 List(1, 2, 3)
  .foldable
@@ -130,7 +130,7 @@ def take[G[_]: Foldable, A](i: Int): Fold[G[A], A]
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 
 val listFoldable = Fold.take[List, Int](2)
 
@@ -141,7 +141,7 @@ listFoldable.foldLeft(List(1, 2, 3))(Vector.empty[Int])(_ :+ _)
 ### Using take syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 List(1, 2, 3)
  .foldable
@@ -158,7 +158,7 @@ final def drop[G[_]: Foldable, A](i: Int): Fold[G[A], A]
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 
 val listFoldable = Fold.drop[List, Int](1)
 
@@ -169,7 +169,7 @@ listFoldable.foldLeft(List(1, 2, 3))(Vector.empty[Int])(_ :+ _)
 ### Using drop syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 List(1, 2, 3)
  .foldable
@@ -189,7 +189,7 @@ def takeWhile[G[_]: Foldable, A](predicate: A => Boolean): Fold[G[A], A]
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 
 val listFoldable = Fold.takeWhile[List, Int](_ < 3)
 
@@ -200,7 +200,7 @@ listFoldable.foldLeft(List(1, 2, 3))(Vector.empty[Int])(_ :+ _)
 ### Using takeWhile syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 
 List(1, 2, 3)
  .foldable
@@ -220,7 +220,7 @@ final def dropWhile[G[_]: Foldable, A](predicate: A => Boolean): Fold[G[A], A]
 ```
 
 ```scala
-import proptics.Fold
+import theodolite.Fold
 import cats.syntax.eq._
 
 val listFoldable = Fold.dropWhile[List, Int](_ === 1)
@@ -232,7 +232,7 @@ listFoldable.foldLeft(List(1, 2, 3))(Vector.empty[Int])(_ :+ _)
 ### Using dropWhile syntax
 
 ```scala
-import proptics.syntax.all._
+import theodolite.syntax.all._
 import cats.syntax.eq._
 
 List(1, 2, 3)
@@ -244,7 +244,7 @@ List(1, 2, 3)
 
 ## Constructing a polymorphic Fold
 
-`Fold_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Fold_$">Fold_[S, T, A, B]#apply</a> function.</br>
+`Fold_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Fold_$">Fold_[S, T, A, B]#apply</a> function.</br>
 For a given `Fold_[S, T, A, B]` it takes a fold function `S => A` as an argument.
 
 ```scala
@@ -255,7 +255,7 @@ object Fold_ {
 
 ## Methods
 
-#### [view](../../api/proptics/Fold_.html#view(s:S)(implicitev:cats.Monoid[A]):A)
+#### [view](../../api/theodolite/Fold_.html#view(s:S)(implicitev:cats.Monoid[A]):A)
 
 ```scala
 /** fold the foci of a Fold using a cats.Monoid */
@@ -267,7 +267,7 @@ listFoldable.view(list)
 // val res0: Int = 10
 ```
 
-#### [viewAll](../../api/proptics/Fold_.html#viewAll(s:S):List[A])
+#### [viewAll](../../api/theodolite/Fold_.html#viewAll(s:S):List[A])
 
 ```scala
 /** collect all the foci of a Fold into a List */
@@ -282,7 +282,7 @@ vectorFoldable.viewAll(vector)
 // val res1: List[Int] = List(1, 2, 3, 4)
 ```
 
-#### [preview](../../api/proptics/Fold_.html#preview(s:S):Option[A])
+#### [preview](../../api/theodolite/Fold_.html#preview(s:S):Option[A])
 
 ```scala
 /** view the first focus of a Fold, if there is any */
@@ -294,7 +294,7 @@ listFoldable.preview(list)
 // val res2: Option[Int] = Some(1)
 ```
 
-#### [fold](../../api/proptics/Fold_.html#fold(s:S)(implicitev:cats.Monoid[A]):A)
+#### [fold](../../api/theodolite/Fold_.html#fold(s:S)(implicitev:cats.Monoid[A]):A)
 
 ```scala
 /** synonym for view */
@@ -306,7 +306,7 @@ listFoldable.fold(list)
 // val res3: Int = 10
 ```
 
-#### [foldMap](../../api/proptics/Fold_.html#foldMap[R](s:S)(f:A=>R)(implicitevidence$2:cats.Monoid[R]):R)
+#### [foldMap](../../api/theodolite/Fold_.html#foldMap[R](s:S)(f:A=>R)(implicitevidence$2:cats.Monoid[R]):R)
 
 ```scala
 /** map each focus of a Fold to a cats.Monoid, and combine the results */
@@ -325,7 +325,7 @@ listFoldable.foldMap(list)(isEven)
 // val res4: Option[Int] = Some(6)
 ```
 
-#### <a href="../../api/proptics/Fold_.html#foldRight[R](s:S)(r:R)(f:(A,R)=>R):R">foldRight</a>
+#### <a href="../../api/theodolite/Fold_.html#foldRight[R](s:S)(r:R)(f:(A,R)=>R):R">foldRight</a>
 
 ```scala
 /** fold the foci of a Fold using a binary operator, going right to left */
@@ -337,7 +337,7 @@ listFoldable.foldRight(list)(Vector.empty[Int])(_ +: _)
 // val res5: scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4)
 ```
 
-#### <a href="../../api/proptics/Fold_.html#foldLeft[R](s:S)(r:R)(f:(R,A)=>R):R">foldLeft</a>
+#### <a href="../../api/theodolite/Fold_.html#foldLeft[R](s:S)(r:R)(f:(R,A)=>R):R">foldLeft</a>
 
 ```scala
 /** fold the foci of a Fold using a binary operator, going left to right */
@@ -349,7 +349,7 @@ listFoldable.foldLeft(list)(Vector.empty[Int])(_ :+ _)
 // val res6: scala.collection.immutable.Vector[Int] = Vector(1, 2, 3, 4)
 ```
 
-#### [exists](../../api/proptics/Fold_.html#exists(f:A=>Boolean):S=>Boolean)
+#### [exists](../../api/theodolite/Fold_.html#exists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate holds for the focus of a Fold */
@@ -360,7 +360,7 @@ listFoldable.exists(_ < 9)(list)
 // val res7: Boolean = true
 ```
 
-#### [notExists](../../api/proptics/Fold_.html#notExists(f:A=>Boolean):S=>Boolean)
+#### [notExists](../../api/theodolite/Fold_.html#notExists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate does not hold for the focus of a Fold */
@@ -372,7 +372,7 @@ listFoldable.notExists(_ < 9)(list)
 // val res8: Boolean = false
 ```
 
-#### [contains](../../api/proptics/Fold_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [contains](../../api/theodolite/Fold_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Fold contains a given value */
@@ -384,7 +384,7 @@ listFoldable.contains(9)(list)
 // val res9: Boolean = false
 ```
 
-#### [notContains](../../api/proptics/Fold_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [notContains](../../api/theodolite/Fold_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Fold does not contain a given value */
@@ -396,7 +396,7 @@ listFoldable.notContains(9)(list)
 // val res10: Boolean = true
 ```
 
-#### [isEmpty](../../api/proptics/Fold_.html#isEmpty(s:S):Boolean)
+#### [isEmpty](../../api/theodolite/Fold_.html#isEmpty(s:S):Boolean)
 
 ```scala
 /** check if the Fold does not contain a focus */
@@ -408,7 +408,7 @@ listFoldable.isEmpty(list)
 // val res11: Boolean = false
 ```
 
-#### [nonEmpty](../../api/proptics/Fold_.html#nonEmpty(s:S):Boolean)
+#### [nonEmpty](../../api/theodolite/Fold_.html#nonEmpty(s:S):Boolean)
 
 ```scala
 /** check if the Fold contains a focus */
@@ -420,7 +420,7 @@ listFoldable.nonEmpty(List.empty[Int])
 // val res12: Boolean = false
 ```
 
-#### [find](../../api/proptics/Fold_.html#find(f:A=>Boolean):S=>Option[A])
+#### [find](../../api/theodolite/Fold_.html#find(f:A=>Boolean):S=>Option[A])
 
 ```scala
 /** find the focus of an Fold that satisfies a predicate, if there is any */
@@ -434,7 +434,7 @@ listFoldable.find(_ === 9)(list)
 // val res13: Option[Int] = None
 ```
 
-#### [first](../../api/proptics/Fold_.html#first(s:S):Option[A])
+#### [first](../../api/theodolite/Fold_.html#first(s:S):Option[A])
 
 ```scala
 /** synonym for preview */
@@ -446,7 +446,7 @@ listFoldable.first(list)
 // val res14: Option[Int] = Some(1)
 ```
 
-#### [last](../../api/proptics/Fold_.html#last(s:S):Option[A])
+#### [last](../../api/theodolite/Fold_.html#last(s:S):Option[A])
 
 ```scala
 /** find the last focus of a Fold, if there is any */
@@ -458,7 +458,7 @@ listFoldable.last(list)
 // val res15: Option[Int] = Some(4)
 ```
 
-#### [length](../../api/proptics/Fold_.html#length(s:S):Int)
+#### [length](../../api/theodolite/Fold_.html#length(s:S):Int)
 
 ```scala
 /** the number of foci of a Fold */
@@ -470,7 +470,7 @@ listFoldable.length(list)
 // val res16: Int = 4
 ```
 
-#### [maximum](../../api/proptics/Fold_.html#maximum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
+#### [maximum](../../api/theodolite/Fold_.html#maximum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
 
 ```scala
 /** the maximum of all foci of a Fold, if there is any /*
@@ -484,7 +484,7 @@ listFoldable.maximum(list)
 // val res17: Option[Int] = Some(4)
 ```
 
-#### [minimum](../../api/proptics/Fold_.html#minimum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
+#### [minimum](../../api/theodolite/Fold_.html#minimum(s:S)(implicitev:cats.kernel.Order[A]):Option[A])
 
 ```scala
 /** the minimum of all foci of a Fold, if there is any /*
@@ -498,7 +498,7 @@ listFoldable.minimum(list)
 // val res18: Option[Int] = Some(1)
 ```
 
-#### [mkString](../../api/proptics/Fold_.html#mkString(s:S)(implicitev:S<:<Iterable[A]):String)
+#### [mkString](../../api/theodolite/Fold_.html#mkString(s:S)(implicitev:S<:<Iterable[A]):String)
 
 ```scala
 /** displays all foci of a Fold in a string */
@@ -510,7 +510,7 @@ listFoldable.mkString(list)
 // val res19: String = 1234
 ```
 
-#### [mkString](../../api/proptics/Fold_.html#mkString(s:S,sep:String)(implicitev:S<:<Iterable[A]):String)
+#### [mkString](../../api/theodolite/Fold_.html#mkString(s:S,sep:String)(implicitev:S<:<Iterable[A]):String)
 
 ```scala
 /** displays all foci of a Fold in a string using a separator */
@@ -522,7 +522,7 @@ listFoldable.mkString(list, ", ")
 // val res20: String = 1, 2, 3, 4
 ```
 
-#### [mkString](../../api/proptics/Fold_.html#mkString(s:S,start:String,sep:String,end:String)(implicitev:S<:<Iterable[A]):String)
+#### [mkString](../../api/theodolite/Fold_.html#mkString(s:S,start:String,sep:String,end:String)(implicitev:S<:<Iterable[A]):String)
 
 ```scala
 /** displays all foci of a Fold in a string using a start, end and a separator */
@@ -534,7 +534,7 @@ listFoldable.mkString(list, "[", ", ", "]")
 // val res21: String = [1, 2, 3, 4]
 ```
 
-#### [intercalate](../../api/proptics/Fold_.html#intercalate(s:S,a:A)(implicitev0:cats.Monoid[A],implicitev1:S<:<Iterable[A]):A)
+#### [intercalate](../../api/theodolite/Fold_.html#intercalate(s:S,a:A)(implicitev0:cats.Monoid[A],implicitev1:S<:<Iterable[A]):A)
 
 ```scala
 /** intercalate/insert an element between the existing elements while folding */
@@ -549,7 +549,7 @@ listFoldable.intercalate(list, 2)
 // val res23: Int = 16
 ```
 
-#### [forall](../../api/proptics/Fold_.html#forall(f:A=>Boolean):S=>Boolean)
+#### [forall](../../api/theodolite/Fold_.html#forall(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether there is no focus or a predicate holds for the focus of a Fold */
@@ -561,7 +561,7 @@ listFoldable.forall(_ < 9)(list)
 // val res24: Boolean = true
 ```
 
-#### [forall](../../api/proptics/Fold_.html#forall[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
+#### [forall](../../api/theodolite/Fold_.html#forall[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
 
 ```scala
 /**
@@ -578,7 +578,7 @@ listFoldable.forall(list)(_ < 9)
 // val res25: Boolean = true
 ```
 
-#### [any](../../api/proptics/Fold_.html#any[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
+#### [any](../../api/theodolite/Fold_.html#any[R](s:S)(f:A=>R)(implicitevidence$1:spire.algebra.lattice.Heyting[R]):R)
 
 ```scala
 /** test whether a predicate holds for any focus of a Fold, using a Heyting algebra */
@@ -590,7 +590,7 @@ listFoldable.any(list)(_ < 2)
 // val res26: Boolean = true
 ```
 
-#### [or](../../api/proptics/Fold_.html#or(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
+#### [or](../../api/theodolite/Fold_.html#or(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
 
 ```scala
 /** return the result of a disjunction of all foci of a Fold, using a algebra */
@@ -602,7 +602,7 @@ listFoldable.any(list)(_ < 2)
 // val res27: Boolean = true
 ```
 
-#### [and](../../api/proptics/Fold_.html#and(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
+#### [and](../../api/theodolite/Fold_.html#and(s:S)(implicitev:spire.algebra.lattice.Heyting[A]):A)
 
 ```scala
 /** return the result of a conjunction of all foci of a Fold, using a Heyting algebra */
@@ -617,7 +617,7 @@ boolFoldable.and(boolList)
 // val res28: Boolean = false
 ```
 
-#### [product](../../api/proptics/Fold_.html#product(s:S)(implicitev:spire.algebra.MultiplicativeMonoid[A]):A)
+#### [product](../../api/theodolite/Fold_.html#product(s:S)(implicitev:spire.algebra.MultiplicativeMonoid[A]):A)
 
 ```scala
 /** the product of all foci of a Fold */
@@ -631,7 +631,7 @@ listFoldable.product(list)
 // val res29: Int = 24
 ```
 
-#### [sum](../../api/proptics/Fold_.html#sum(s:S)(implicitev:spire.algebra.AdditiveMonoid[A]):A)
+#### [sum](../../api/theodolite/Fold_.html#sum(s:S)(implicitev:spire.algebra.AdditiveMonoid[A]):A)
 
 ```scala
 /** the sum of all foci of a Fold */
@@ -645,7 +645,7 @@ listFoldable.sum(list)
 // val res30: Int = 10
 ```
 
-#### [toList](../../api/proptics/Fold_.html#toList(s:S):List[A])
+#### [toList](../../api/theodolite/Fold_.html#toList(s:S):List[A])
 
 ```scala
 /** synonym for viewAll */
@@ -660,7 +660,7 @@ vectorFoldable.toList(vector)
 // val res31: List[Int] = List(1, 2, 3, 4)
 ```
 
-#### [toArray](../../api/proptics/Fold_.html#toArray[AA>:A](s:S)(implicitev:scala.reflect.ClassTag[AA]):Array[AA])
+#### [toArray](../../api/theodolite/Fold_.html#toArray[AA>:A](s:S)(implicitev:scala.reflect.ClassTag[AA]):Array[AA])
 
 ```scala
 /** collect all the foci of a Fold into an Array */
@@ -675,7 +675,7 @@ vectorFoldable.toArray(vector)
 // val res32: Array[Int] = Array(1, 2, 3, 4)
 ```
 
-#### [use](../../api/proptics/Fold_.html#use(implicitev:cats.data.State[S,A]):cats.data.State[S,List[A]])
+#### [use](../../api/theodolite/Fold_.html#use(implicitev:cats.data.State[S,A]):cats.data.State[S,List[A]])
 
 ```scala
 /** collect all the foci of a Fold in the state of a monad */

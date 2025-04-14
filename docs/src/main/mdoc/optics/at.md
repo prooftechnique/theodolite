@@ -38,14 +38,14 @@ val atMap = At[Map[String, List[String]], String, List[String]]
 ``` 
 
 ```scala
-// import proptics.At
+// import theodolite.At
 
 import cats.syntax.option._
-import proptics.typeclass.At // some method
+import theodolite.typeclass.At // some method
 // import cats.syntax.option._
 
-import proptics.instances.at._ // summoner of the instance
-// import proptics.instances.at._
+import theodolite.instances.at._ // summoner of the instance
+// import theodolite.instances.at._
 
 val seriesMap: Map[String, List[String]] = Map[String, List[String]](
   "tt0903747" -> List("True Detective", "Fargo", "Dexter"),
@@ -62,8 +62,8 @@ val seriesMap: Map[String, List[String]] = Map[String, List[String]](
 // summon of the instance
 val atMap: At[Map[String, List[String]], String, List[String]] =
   At[Map[String, List[String]], String, List[String]]  
-// proptics.At[Map[String,List[String]],String,List[String]] = 
-//   proptics.instances.AtInstances$$anon$4@5016596e
+// theodolite.At[Map[String,List[String]],String,List[String]] = 
+//   theodolite.instances.AtInstances$$anon$4@5016596e
 
 val newRecommendation = List("The Mandalorian", "Fargo", "Dexter").some
 // newRecommendation: Option[List[String]] = Some(List(The Mandalorian, Fargo, Dexter))
@@ -90,7 +90,7 @@ newSeriesMap.contains("tt0903747")
 We can also use the syntax method `remove`
 
 ```scala
-import proptics.syntax.at._
+import theodolite.syntax.at._
 
 atMap.remove("tt2356777")(seriesMap)
 // res2: Map[String,List[String]] = 

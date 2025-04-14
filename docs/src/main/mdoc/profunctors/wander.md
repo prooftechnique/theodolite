@@ -43,12 +43,12 @@ B ~ String // modified focus
 ```
 
 ```scala
-import proptics.Traversal_
-// import proptics.Traversal_
+import theodolite.Traversal_
+// import theodolite.Traversal_
 
 val traversal: Traversal_[(Int, Int), (Int, String), Int, String] =
   Traversal_[(Int, Int), (Int, String), Int, String](_._2) { case (i, _) => str => (i, str) }
-// traversal: Traversal_[(Int, Int),(Int, String),Int,String] = proptics.Traversal_$$anon$13@2859e95
+// traversal: Traversal_[(Int, Int),(Int, String),Int,String] = theodolite.Traversal_$$anon$13@2859e95
 
 val initialStructure: (Int, Int) = (9, 10)
 // initialStructure: (Int, Int) = (9,10)
@@ -77,8 +77,8 @@ so the types are not aligned with each other, Therefore, we need to peek the `Fu
 import cats.Id
 // import cats.Id
 
-import proptics.profunctor.{Traversing, Wander}
-// import proptics.profunctor.{Traversing, Wander}
+import theodolite.profunctor.{Traversing, Wander}
+// import theodolite.profunctor.{Traversing, Wander}
 
 implicit final def wanderFunction: Wander[Function] = new Wander[Function] {
   override def wander[S, T, A, B](traversing: Traversing[S, T, A, B])(pab: A => B): S => T = 

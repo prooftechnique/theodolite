@@ -28,15 +28,15 @@ main business logic the `closed` method lets us run some initialization logic be
 Let's implement an instance of `Closed` for `Function`
 
 ```scala
-import proptics.profunctor.Closed
-// import proptics.profunctor.Closed
+import theodolite.profunctor.Closed
+// import theodolite.profunctor.Closed
 
 implicit def closedFunction: Closed[* => *] = new Closed[* => *] {
   override def closed[A, B, C](pab: A => B): (C => A) => C => B = c2a => pab compose c2a
 
   override def dimap[A, B, C, D](fab: A => B)(f: C => A)(g: B => D): C => D = g compose fab compose f
 }
-// closedFunction: proptics.profunctor.Closed[[α$0$, β$1$]α$0$ => β$1$]
+// closedFunction: theodolite.profunctor.Closed[[α$0$, β$1$]α$0$ => β$1$]
 
 val currentYear: Int = 2020 
 // currentYear: Int = 2020

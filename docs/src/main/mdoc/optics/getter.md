@@ -8,7 +8,7 @@ focuses on a single value.<br/> A `Getter[S, A]` is just any function `S => A`, 
 
 ## Constructing a monomorphic Getter
 
-`Getter[S, A]` is constructed using the <a href="../../api/proptics/Getter$">Getter[S, A]#apply</a> function.</br>
+`Getter[S, A]` is constructed using the <a href="../../api/theodolite/Getter$">Getter[S, A]#apply</a> function.</br>
 For a given `Getter[S, A]` it takes a function as argument `S => A`.
 
 
@@ -19,7 +19,7 @@ object Getter {
 ```
 
 ```scala
-import proptics.Getter
+import theodolite.Getter
 
 val headOptionGetter: Getter[List[Int], Option[Int]] = Getter[List[Int]](_.headOption)
 
@@ -29,7 +29,7 @@ headOptionGetter.view(List.range(1, 6))
 
 ## Constructing a polymorphic Getter
 
-`Getter_[S, T, A, B]` is constructed using the <a href="../../api/proptics/Getter_$">Getter_[S, T, A, B]#apply</a> function.</br>
+`Getter_[S, T, A, B]` is constructed using the <a href="../../api/theodolite/Getter_$">Getter_[S, T, A, B]#apply</a> function.</br>
 For a given `Getter_[S, T, A, B]` it takes a function as argument `S => A`.
 
 ```scala
@@ -41,13 +41,13 @@ object Getter_ {
 ## Methods
 
 ```scala
-import proptics.Getter
+import theodolite.Getter
 
 val list = List.range(1, 6)
 val headOptionGetter: Getter[List[Int], Option[Int]] = Getter[List[Int]](_.headOption)
 ```
 
-#### [view](../../api/proptics/Getter_.html#view(s:S):A)
+#### [view](../../api/theodolite/Getter_.html#view(s:S):A)
 
 ```scala
 /** view the focus of a Getter */
@@ -59,7 +59,7 @@ headOptionGetter.view(list)
 // res0: Option[Int] = Some(1)
 ```
 
-#### [exists](../../api/proptics/Getter_.html#exists(f:A=>Boolean):S=>Boolean)
+#### [exists](../../api/theodolite/Getter_.html#exists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate holds for the focus of a Getter */
@@ -74,7 +74,7 @@ headOptionGetter.exists(_ === 1.some)(list)
 // res1: Boolean = true
 ```
 
-#### [notExists](../../api/proptics/Getter_.html#notExists(f:A=>Boolean):S=>Boolean)
+#### [notExists](../../api/theodolite/Getter_.html#notExists(f:A=>Boolean):S=>Boolean)
 
 ```scala
 /** test whether a predicate does not hold for the focus of a Getter */
@@ -89,7 +89,7 @@ headOptionGetter.notExists(_ === 9.some)(list)
 // res2: Boolean = true
 ```
 
-#### [contains](../../api/proptics/Getter_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [contains](../../api/theodolite/Getter_.html#contains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Getter contains a given value */
@@ -101,7 +101,7 @@ headOptionGetter.contains(1.some)(list)
 // res3: Boolean = true
 ```
 
-#### [notContains](../../api/proptics/Getter_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
+#### [notContains](../../api/theodolite/Getter_.html#notContains(a:A)(s:S)(implicitev:cats.Eq[A]):Boolean)
 
 ```scala
 /** test whether the focus of a Getter does not contain a given value */ 
@@ -113,7 +113,7 @@ headOptionGetter.notContains(9.some)(list)
 // res4: Boolean = true
 ```
 
-#### [find](../../api/proptics/Getter_.html#find(f:A=>Boolean):S=>Option[A])
+#### [find](../../api/theodolite/Getter_.html#find(f:A=>Boolean):S=>Option[A])
 
 ```scala
 /** find the first focus of a Getter that satisfies a predicate, if there is any */
@@ -128,7 +128,7 @@ headOptionGetter.find(_ === 1.some)(list).flatten
 // res5: Option[Int] = Some(1)
 ```
 
-#### [use](../../api/proptics/Getter_.html#use(implicitev:cats.data.State[S,A]):cats.data.State[S,A])
+#### [use](../../api/theodolite/Getter_.html#use(implicitev:cats.data.State[S,A]):cats.data.State[S,A])
 
 ```scala
 /** collect all the foci of a Getter in the state of a monad */
@@ -145,7 +145,7 @@ headOptionGetter.use.runA(list.reverse).value
 // val res6: Option[Int] = Some(5)
 ```
 
-#### [focus](../../api/proptics/Getter_.html#focus[C,D](f:A=>C):proptics.Getter_[S,T,C,D])
+#### [focus](../../api/theodolite/Getter_.html#focus[C,D](f:A=>C):theodolite.Getter_[S,T,C,D])
 
 ```scala
 /** compose this Getter with a function lifted to a Getter */
