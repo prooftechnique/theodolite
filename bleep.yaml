@@ -1,0 +1,284 @@
+$schema: https://raw.githubusercontent.com/oyvindberg/bleep/master/schema.json
+$version: 0.0.12
+jvm:
+  name: managed
+projects:
+  scripts:
+    dependencies: build.bleep::bleep-core:${BLEEP_VERSION}
+    platform:
+      name: jvm
+    scala:
+      version: 3.4.3
+  theodolite+test:
+    dependencies:
+      forceJvm: true
+      module: org.typelevel::discipline-scalatest:2.1.5
+    dependsOn:
+    - theodolite-law
+    - theodolite-macros
+    extends:
+    - template-common-main
+    - template-cross-all
+    folder: ./test
+  theodolite+test-test:
+    cross:
+      js212:
+        sources:
+        - ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}
+        - ./shared/src/${SCOPE}/scala-2.x
+      js213:
+        sources:
+        - ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}
+        - ./shared/src/${SCOPE}/scala-2.x
+      js3:
+        dependencies: org.scala-js:scalajs-test-bridge_2.13:${PLATFORM_VERSION}
+        sources: ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}.x
+      jvm212:
+        sources:
+        - ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}
+        - ./shared/src/${SCOPE}/scala-2.x
+      jvm213:
+        sources:
+        - ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}
+        - ./shared/src/${SCOPE}/scala-2.x
+      jvm3:
+        sources: ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}.x
+    dependsOn: theodolite+test
+    extends:
+    - template-common-test
+    - template-cross-all
+    folder: ./test
+  theodolite-core:
+    cross:
+      js212:
+        dependencies:
+          forceJvm: true
+          module: org.typelevel::spire:0.17.0
+        sources: ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}
+      js213:
+        dependencies:
+          forceJvm: true
+          module: org.typelevel::spire:0.17.0
+        sources: ./shared/src/${SCOPE}/scala-2.13+
+      js3:
+        dependencies:
+          forceJvm: true
+          module: org.typelevel::spire:0.18.0
+        sources: ./shared/src/${SCOPE}/scala-2.13+
+      jvm212:
+        dependencies:
+          forceJvm: true
+          module: org.typelevel::spire:0.17.0
+        sources: ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}
+      jvm213:
+        dependencies:
+          forceJvm: true
+          module: org.typelevel::spire:0.17.0
+        sources: ./shared/src/${SCOPE}/scala-2.13+
+      jvm3:
+        dependencies:
+          forceJvm: true
+          module: org.typelevel::spire:0.18.0
+        sources: ./shared/src/${SCOPE}/scala-2.13+
+    dependsOn: theodolite-profunctor
+    extends:
+    - template-common-main
+    - template-cross-all
+    folder: ./core
+    sources: ./shared/src/${SCOPE}/scala
+  theodolite-docs:
+    dependencies:
+    - org.scalameta::mdoc:2.3.8
+    - org.typelevel::cats-core:2.13.0
+    - org.typelevel::spire:0.17.0
+    dependsOn: theodolite-law
+    extends:
+    - template-common-main
+    - template-scala-2.13-jvm
+    folder: ./docs
+    scala:
+      options: -language:implicitConversions
+    sourcegen:
+      main: scripts.GenerateForTheodoliteDocs
+      project: scripts
+  theodolite-examples:
+    dependencies:
+    - forceJvm: true
+      module: org.typelevel::cats-laws:2.13.0
+    - forceJvm: true
+      module: org.typelevel::discipline-core:1.7.0
+    - forceJvm: true
+      module: org.typelevel::discipline-scalatest:2.1.5
+    dependsOn: theodolite-macros
+    extends:
+    - template-common-main
+    - template-cross-js-all
+    folder: ./examples
+  theodolite-examples-test:
+    cross:
+      js212:
+        dependsOn: theodolite-examples
+      js213:
+        dependsOn: theodolite-examples
+      js3:
+        dependsOn: theodolite-examples
+    dependsOn: theodolite+test-test
+    extends:
+    - template-common-test
+    - template-cross-all
+    folder: ./examples
+  theodolite-law:
+    dependencies:
+    - forceJvm: true
+      module: org.typelevel::cats-laws:2.13.0
+    - forceJvm: true
+      module: org.typelevel::discipline-core:1.7.0
+    dependsOn: theodolite-core
+    extends:
+    - template-common-main
+    - template-cross-all
+    folder: ./law
+  theodolite-macros:
+    cross:
+      js212:
+        dependencies:
+        - org.scala-lang:scala-compiler:${SCALA_VERSION}
+        - org.scala-lang:scala-reflect:${SCALA_VERSION}
+        sources: ./shared/src/${SCOPE}/scala-2.x
+      js213:
+        dependencies:
+        - org.scala-lang:scala-compiler:${SCALA_VERSION}
+        - org.scala-lang:scala-reflect:${SCALA_VERSION}
+        sources: ./shared/src/${SCOPE}/scala-2.x
+      js3:
+        sources: ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}.x
+      jvm212:
+        dependencies:
+        - org.scala-lang:scala-compiler:${SCALA_VERSION}
+        - org.scala-lang:scala-reflect:${SCALA_VERSION}
+        sources: ./shared/src/${SCOPE}/scala-2.x
+      jvm213:
+        dependencies:
+        - org.scala-lang:scala-compiler:${SCALA_VERSION}
+        - org.scala-lang:scala-reflect:${SCALA_VERSION}
+        sources: ./shared/src/${SCOPE}/scala-2.x
+      jvm3:
+        sources: ./shared/src/${SCOPE}/scala-${SCALA_BIN_VERSION}.x
+    dependsOn: theodolite-core
+    extends:
+    - template-common-main
+    - template-cross-all
+    folder: ./macros
+    scala:
+      options: -language:experimental.macros
+    sources: ./shared/src/${SCOPE}/scala
+  theodolite-profunctor:
+    cross:
+      js212:
+        dependencies:
+          forceJvm: true
+          module: org.scala-js::scalajs-scalalib:${SCALA_VERSION}+${PLATFORM_VERSION}
+      js213:
+        dependencies:
+          forceJvm: true
+          module: org.scala-js::scalajs-scalalib:${SCALA_VERSION}+${PLATFORM_VERSION}
+    dependencies:
+      forceJvm: true
+      module: org.typelevel::cats-core:2.13.0
+    extends:
+    - template-common-main
+    - template-cross-all
+    folder: ./profunctor
+templates:
+  template-common-main:
+    sbt-scope: main
+  template-common-test:
+    isTestProject: true
+    sbt-scope: test
+    sources: ./shared/src/${SCOPE}/scala
+    testFrameworks:
+    - hedgehog.sbt.Framework
+    - weaver.framework.CatsEffect
+    - zio.test.sbt.ZTestFramework
+  template-cross-all:
+    cross:
+      jvm212:
+        extends: template-scala-2.12-jvm
+      jvm213:
+        extends: template-scala-2.13-jvm
+        scala:
+          options: -Xfatal-warnings -Ywarn-dead-code Ywarn-numeric-widen -Ywarn-unused:imports
+            -language:implicitConversions Ywarn-unused:params,-implicits
+        source-layout: cross-pure
+      jvm3:
+        extends: template-scala-3-jvm
+    extends: template-cross-js-all
+  template-cross-js-all:
+    cross:
+      js212:
+        extends: template-scala-2.12-js
+      js213:
+        extends: template-scala-2.13-js
+      js3:
+        extends: template-scala-3-js
+  template-js:
+    platform:
+      jsEmitSourceMaps: false
+      jsJsdom: false
+      jsKind: none
+      jsNodeVersion: 18.4.0
+      jsVersion: 1.18.2
+      name: js
+  template-jvm:
+    platform:
+      name: jvm
+  template-scala-2:
+    scala:
+      compilerPlugins: org.typelevel:::kind-projector:0.13.2
+      options: -Yrangepos -Ywarn-value-discard -deprecation -encoding UTF-8 -explaintypes
+        -feature -language:existentials -language:higherKinds -language:postfixOps
+        -unchecked
+  template-scala-2.12:
+    extends: template-scala-2
+    scala:
+      options: -Xfatal-warnings -Xfuture -Yno-adapted-args -Ypartial-unification -Ywarn-dead-code
+        Ywarn-numeric-widen -Ywarn-unused-import -language:implicitConversions Ywarn-unused:params,-implicits
+      version: 2.12.16
+    source-layout: cross-pure
+  template-scala-2.12-js:
+    extends:
+    - template-js
+    - template-scala-2.12
+  template-scala-2.12-jvm:
+    extends:
+    - template-jvm
+    - template-scala-2.12
+  template-scala-2.13:
+    extends: template-scala-2
+    scala:
+      version: 2.13.12
+  template-scala-2.13-js:
+    extends:
+    - template-js
+    - template-scala-2.13
+    scala:
+      options: -Xfatal-warnings -Ywarn-dead-code Ywarn-numeric-widen -Ywarn-unused:imports
+        -language:implicitConversions Ywarn-unused:params,-implicits
+    source-layout: cross-pure
+  template-scala-2.13-jvm:
+    extends:
+    - template-jvm
+    - template-scala-2.13
+  template-scala-3:
+    scala:
+      options: -Xignore-scala2-macros -Ykind-projector -language:implicitConversions,higherKinds,postfixOps
+      version: 3.4.3
+    source-layout: cross-pure
+  template-scala-3-js:
+    extends:
+    - template-js
+    - template-scala-3
+  template-scala-3-jvm:
+    extends:
+    - template-jvm
+    - template-scala-3

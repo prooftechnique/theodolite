@@ -28,3 +28,4 @@ project/plugins/project/
 
 .direnv/
 .bleep/
+.metals/
